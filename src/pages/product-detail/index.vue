@@ -112,22 +112,22 @@ export default {
 					display: flex;
 					align-items: center;
 					padding-right: 40px;
-				    text-overflow: ellipsis;
-				    white-space: nowrap;
-				    color: #262626;
-				    font-size: $font12;	/*no*/
-				    overflow: hidden;
-				    .promotion-img {
+					text-overflow: ellipsis;
+					white-space: nowrap;
+					color: #262626;
+					font-size: $font12;	/*no*/
+					overflow: hidden;
+					.promotion-img {
 						height: 6px;
 						width: 6px;
 						margin-top: 4px;
 						border-radius: 50%;
 						background: #474245;
-				    }
-				    .image-text {
-				    	padding-left: 10px;
-				    	letter-spacing: 2px;
-				    }
+					}
+					.image-text {
+						padding-left: 10px;
+						letter-spacing: 2px;
+					}
 				}
 			}
 		}
