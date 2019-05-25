@@ -96,7 +96,8 @@ export default {
 				padding-bottom: 12px;
 				font-size: $font14;	/*no*/
 				.price {
-					color: $mainColor;
+					color: #ff4891;
+					font-weight: bold;
 				}
 				.price-right {
 					color: #969696;
