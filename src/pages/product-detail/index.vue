@@ -34,6 +34,15 @@
 				</div>
 			</div>
 		</div>
+
+		<!-- 底部加入购物车 -->
+		<div class="footer-product-car">
+			<div class="car-left">
+				<i class="icon iconfont">&#xe62d;</i>
+				<span class="image-spot-dot">8</span>
+			</div>
+			<div class="add-cart-btn">加入购物车</div>
+		</div>
 	</div>
 </template>
 
@@ -131,6 +140,47 @@ export default {
 					}
 				}
 			}
+		}
+	}
+
+	.footer-product-car {
+		position: fixed;
+		left: 0;
+		bottom: 0;
+		display: flex;
+		width: 100%;
+		height: 92px;
+		line-height: 92px;
+		box-shadow: 0 4px 4px #e5e5e5;
+		background: $white;
+		z-index: 2;
+		.car-left {
+			position: relative;
+			width: 118px;		
+			text-align: center;
+			.icon {
+				font-size: 30px;	/*no*/
+			}
+			.image-spot-dot {
+				position: absolute;
+				right: 6px;
+				top: 2px;
+				padding: 8px;
+				line-height: 1;
+				min-width: 40px;
+				border-radius: 50%;
+				background: #ff4891;
+				color: $white;
+				font-size: $font12;	/*no*/
+			}
+		}
+		.add-cart-btn {
+			width: 100%;
+			background: #ff4891;
+			text-align: center;
+			color: $white;
+			font-size: $font18;	/*no*/
+			letter-spacing: 1px;
 		}
 	}
 }
