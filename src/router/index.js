@@ -16,6 +16,15 @@ const Home = (resolve) => {
 // 商品详情页
 const ProductDetail = () => import(/* webpackChunkName: "product-detail" */ '@/pages/product-detail')
 
+// 分类
+const Classify = () => import(/* webpackChunkName: "classify" */ '@/pages/classify')
+
+// 购物车
+const Car = () => import(/* webpackChunkName: "classify" */ '@/pages/car')
+
+// 我的
+const Mine = () => import(/* webpackChunkName: "classify" */ '@/pages/mine')
+
 const router = new Router({
   routes: [
     {
@@ -32,6 +41,18 @@ const router = new Router({
     {
       path: '/product-detail/:id',
       component: ProductDetail
+    },
+    {
+      path: '/classify',
+      component: Classify
+    },
+    {
+      path: '/car',
+      component: Car
+    },
+    {
+      path: '/mine',
+      component: Mine
     }
   ]
 })
