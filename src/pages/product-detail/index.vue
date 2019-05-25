@@ -1,6 +1,6 @@
 <template>
 	<div class="detail-wrap">
-		<Navbar></Navbar>
+		<Navbar title="详情"></Navbar>
 	</div>
 </template>
 
