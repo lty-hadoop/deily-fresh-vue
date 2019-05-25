@@ -36,7 +36,7 @@
                                         ￥{{item.oldPrice}}
                                     </span>
                                 </div>
-                                <div class="product-item-cart">
+                                <div class="product-item-cart" @click="appendCar">
                                     <span class="car-icon"></span>
                                 </div>
                             </div>
@@ -60,10 +60,17 @@ export default {
 		}
 	},
 	methods: {
+        // 跳转到详情
 		toDetail (data) {
 			console.log(data)
 			this.$router.push({path: `/product-detail/${data.id}`})
-		}
+		},
+
+        // 添加到购物车
+        appendCar (e) {
+            e.stopPropagation()     // 阻止冒泡，，可以用@click.stop
+            console.log('添加到购物车')
+        }
 	}
 }
 </script>
