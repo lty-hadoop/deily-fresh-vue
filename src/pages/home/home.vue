@@ -85,8 +85,10 @@ export default {
 	methods: {
         // 跳转到详情
 		toDetail (data) {
-			console.log(data)
-			this.$router.push({path: `/product-detail/${data.id}`})
+			this.$router.push({
+                path: '/product-detail',
+                query: data
+            })
 		},
 
         // 添加到购物车
