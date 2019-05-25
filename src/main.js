@@ -8,6 +8,10 @@ import '@/assets/scss/reset.scss'
 import Plugin from '@/components/index.js'
 Vue.use(Plugin)
 
+/* 工具函数 */ 
+import utils from '@/assets/js/utils.js'
+Vue.prototype.$utils = utils
+
 Vue.config.productionTip = false
 
 new Vue({
