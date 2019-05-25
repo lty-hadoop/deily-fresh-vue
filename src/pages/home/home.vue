@@ -99,9 +99,14 @@ export default {
 <style scoped lang="scss">
 .home-view {
 	.header {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width:100%;
         display: flex;
         padding: 10px 20px;
         background: #fff;
+        z-index: 2;
         .header-left {
             flex: 0 0 50%;
             align-items: center;
@@ -138,8 +143,13 @@ export default {
 
     /* 内容区域 */
     .main {
+        position: relative;
+        left: 0;
+        top: 70px;
         margin: 20px 0 100px;
         background: #fff;
+        overflow: auto;
+        z-index: 1;
         .banner-img {
             width: 100%;
             height: 190px;
