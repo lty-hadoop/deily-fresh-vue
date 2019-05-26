@@ -39,9 +39,9 @@
 		<div class="footer-product-car">
 			<div class="car-left">
 				<i class="icon iconfont">&#xe62d;</i>
-				<span class="image-spot-dot">8</span>
+				<span class="image-spot-dot" v-if="count" @click="toCar">{{count}}</span>
 			</div>
-			<div class="add-cart-btn">加入购物车</div>
+			<div class="add-cart-btn" @click="addCar">加入购物车</div>
 		</div>
 	</div>
 </template>
@@ -62,12 +62,23 @@ export default {
 				{"url": require('./images/4.jpg')},
 				{"url": require('./images/5.jpg')}
 			],
-			productObj: {}			// 存储数据
+			productObj: {},			// 存储数据
+			count: 0
 		}
 	},
 	created () {
 		this.productObj = this.$route.query
-		console.log(this.productObj)
+	},
+	methods: {
+		// 加入购物车
+		addCar () {
+			this.count++
+		},
+
+		// 跳转至购物车
+		toCar () {
+			console.log(this.count)
+		}
 	}
 }
 </script>
