@@ -2,7 +2,7 @@ import Vue from 'vue'
 import router from './router'
 import App from '@/pages/App.vue'
 import 'lib-flexible'
-
+import store from '@/pages/store/index.js'
 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
@@ -21,5 +21,6 @@ Vue.config.productionTip = false
 
 new Vue({
 	router,
+	store,
 	render: h => h(App),
 }).$mount('#app')
