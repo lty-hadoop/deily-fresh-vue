@@ -78,7 +78,15 @@ export default {
                     "subTitle": "90斤女孩的饭后小甜点",
                     "price": 6.3,
                     "oldPrice": 12.9
-                }
+                },
+                {
+                    "id": 34567,
+                    "url": require('./images/2.jpg'),
+                    "title": "妃子笑荔枝500g「新人特惠」",
+                    "subTitle": "妃子笑嘻嘻，吃了好甜蜜",
+                    "price": 9.9,
+                    "oldPrice": 26.9
+                },
             ]
         }
 	},

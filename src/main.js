@@ -2,7 +2,7 @@ import Vue from 'vue'
 import router from './router'
 import App from '@/pages/App.vue'
 import 'lib-flexible'
-import store from '@/pages/store/index.js'
+import store from './store/index.js'
 
 import VueAwesomeSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
