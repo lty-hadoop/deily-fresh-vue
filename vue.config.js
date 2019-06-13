@@ -35,7 +35,9 @@ module.exports = {
   // 调整内部的 webpack 配置。
   // 查阅 https://github.com/vuejs/vue-docs-zh-cn/blob/master/vue-cli/webpack.md
   chainWebpack: () => {},
-  configureWebpack: () => {},
+  configureWebpack: () => {
+
+  },
 
   // CSS 相关选项
   css: {

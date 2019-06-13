@@ -5,6 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "dev-build": "vue-cli-service build --mode development",
+    "test-build": "vue-cli-service build --mode test",
+    "product-build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -13,6 +16,7 @@
     "vue": "^2.6.10",
     "vue-awesome-swiper": "^3.1.3",
     "vue-router": "^3.0.2",
+    "vue-skeleton-webpack-plugin": "^1.2.2",
     "vuex": "^3.1.1"
   },
   "devDependencies": {
