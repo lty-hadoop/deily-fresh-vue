@@ -37,23 +37,38 @@ export default {
 		return userObj
 	},
 
+	// 千位数金额
+    toThounds() {
+        var num = Array.prototype.slice.call(arguments).toString().split(''),
+            result = [ ], counter = 0; 
+        for (var i = num.length - 1; i >= 0; i--) {
+            counter++
+            result.unshift(num[i])
+            if(!(counter %3) && i != 0) result.unshift(',')
+        }
+        return result.join('')
+    },
 
-	// 冒泡排序，，排json
-	bubbleSort (arr, type, direction) {
-		let len = arr.length;
-		for (let i = 0; i < len - 1; i++) {
-			for(let j = 0; j < len - 1 - i;j ++) {
-				if (direction == 'up') {
-					if(arr[j][type] > arr[j+1][type]) {
-						[arr[j+1],arr[j]] = [arr[j],arr[j+1]]
-					}
-				} else {
-					if(arr[j][type] < arr[j+1][type]) {
-						[arr[j+1],arr[j]] = [arr[j],arr[j+1]]
-					}
-				}
-			}
-		}
-		return arr
-	}
+    // 冒泡排序，，排json
+	bubbleSort () {
+        var arg = Array.prototype.slice.call(arguments);
+        var arr = arg[0],
+            type = arg[1],
+            direction = arg[2];
+        
+        for (let i = 0; i < arr.length - 1; i++) {
+            for(let j = 0; j < arr.length - 1 - i;j ++) {
+                if (direction == 'up') {
+                    if(arr[j][type] > arr[j+1][type]) {
+                        [arr[j+1],arr[j]] = [arr[j],arr[j+1]]
+                    }
+                } else {
+                    if(arr[j][type] < arr[j+1][type]) {
+                        [arr[j+1],arr[j]] = [arr[j],arr[j+1]]
+                    }
+                }
+            }
+        }
+        return arr
+    }
 }
