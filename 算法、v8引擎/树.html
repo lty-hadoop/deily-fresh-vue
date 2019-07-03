@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>document</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+		}	
+		ul {
+			position: relative;
+			padding-left: 40px;
+		}
+		ul li {
+			list-style: none;
+		}
+		ul li p::after {
+			content: "";
+			position: absolute;
+			left: 10px;
+			top: 0;
+			width: 1px;
+			height: 12px;
+			background: #000;
+		}
+		ul li p::before {
+			content: "";
+			position: absolute;
+			left: 10px;
+			top: 12px;
+			width: 25px;
+			height: 1px;
+			background: #000;
+		}
+	</style>
+</head>
+<body>
+	<div class="tree-wrap"></div>
+	<script>
+		var arr = [
+			{
+				"name": "张三",
+				"children": [
+					{
+						"name": "张三222",
+						"children": [
+							{
+								"name": "张三333"
+							}
+						]
+					}
+				]
+			},
+			{"name": "小明"},
+			{
+				"name": "john",
+				"children": [
+					{
+						"name": "john22"
+					}
+				]
+			}
+		]
+
+		function tree(data) {
+			let str = `<ul>`
+			for(let i = 0; i < data.length; i++){
+				str += `<li>`;
+				str += `<p>${data[i].name}</p>`;
+				if(data[i].children && data[i].children.length) {
+					str += tree(data[i].children);
+				}
+				str += `</li>`;
+				
+
+				// if(data[i].children && data[i].children.length) {
+				// 	str += '<li> '+ data[i].name +' </li>'
+				// 	str += tree(data[i].children)
+				// } else {
+				// 	str += `<li>${data[i].name}</li>`
+				// }
+			}
+
+			str += `</ul>`
+			return str
+		}
+
+		document.querySelector('.tree-wrap').innerHTML = tree(arr)
+	</script>
+</body>
+</html>
