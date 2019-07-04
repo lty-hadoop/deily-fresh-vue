@@ -15,20 +15,24 @@
 		ul li {
 			list-style: none;
 		}
+		ul li p {
+			height: 25px;
+			line-height: 25px;
+		}
 		ul li p::after {
 			content: "";
 			position: absolute;
 			left: 10px;
 			top: 0;
 			width: 1px;
-			height: 12px;
+			height: 13px;
 			background: #000;
 		}
 		ul li p::before {
 			content: "";
 			position: absolute;
 			left: 10px;
-			top: 12px;
+			top: 13px;
 			width: 25px;
 			height: 1px;
 			background: #000;
@@ -36,7 +40,12 @@
 	</style>
 </head>
 <body>
-	<div class="tree-wrap"></div>
+	<div class="tree-wrap">
+		<p class="aa">
+			<span>235</span>
+		</p>
+		<div>水电费</div>
+	</div>
 	<script>
 		var arr = [
 			{
@@ -63,30 +72,41 @@
 			}
 		]
 
+		function Init() {
+			document.querySelector('.tree-wrap').innerHTML = tree(arr)
+		}
+		Init()
+
 		function tree(data) {
 			let str = `<ul>`
 			for(let i = 0; i < data.length; i++){
 				str += `<li>`;
-				str += `<p>${data[i].name}</p>`;
+				str += `<p onClick="checkNode(event)">${data[i].name}</p>`;
 				if(data[i].children && data[i].children.length) {
 					str += tree(data[i].children);
 				}
 				str += `</li>`;
-				
-
-				// if(data[i].children && data[i].children.length) {
-				// 	str += '<li> '+ data[i].name +' </li>'
-				// 	str += tree(data[i].children)
-				// } else {
-				// 	str += `<li>${data[i].name}</li>`
-				// }
 			}
 
 			str += `</ul>`
 			return str
 		}
-
-		document.querySelector('.tree-wrap').innerHTML = tree(arr)
+		
+		// 检查元素并展开折叠
+		function checkNode(event) {
+			// 获取当前点击DOM的同级元素标签
+			var oSibling = event.target.nextSibling;
+			if(!!oSibling && !!oSibling.childNodes) {
+				var oChild = Array.prototype.slice.call(oSibling.childNodes);
+				for(var i = 0; i < oChild.length; i++){
+					// 表示非文本节点
+					if(oChild[i].nodeType === 1){
+						oChild[i].setAttribute("flag", false)
+						oChild[i].style.display = 'none'
+					}
+				}
+			}
+		}
 	</script>
 </body>
 </html>
