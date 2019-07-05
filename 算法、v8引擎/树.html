@@ -81,7 +81,7 @@
 			let str = `<ul>`
 			for(let i = 0; i < data.length; i++){
 				str += `<li>`;
-				str += `<p flag="true" onClick="checkNode(event)">${data[i].name}</p>`;
+				str += `<p data-flag="true" onClick="checkNode(event)">${data[i].name}</p>`;
 				if(data[i].children && data[i].children.length) {
 					str += tree(data[i].children);
 				}
@@ -101,13 +101,12 @@
 				var oChild = Array.prototype.slice.call(oSibling.childNodes);
 				for(var i = 0; i < oChild.length; i++){
 					// 表示非文本节点
-					// debugger
 					if(oChild[i].nodeType === 1){
-						if(getData(flag.getAttribute('flag'))) {
-							flag.setAttribute("flag", false)
+						if(getData(flag.getAttribute('data-flag'))) {
+							flag.setAttribute("data-flag", false)
 							oChild[i].style.display = 'none'
 						} else {
-							flag.setAttribute("flag", true)
+							flag.setAttribute("data-flag", true)
 							oChild[i].style.display = 'block'
 						}
 					}
