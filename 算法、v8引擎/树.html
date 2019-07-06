@@ -18,6 +18,15 @@
 		ul li p {
 			height: 25px;
 			line-height: 25px;
+			display: inline-block;
+		}
+		ul li .deletes {
+			margin-left: 20px;
+			cursor: pointer;
+			color: #ff0000;
+		}
+		ul li p:hover {
+			cursor: pointer;
 		}
 		ul li p::after {
 			content: "";
@@ -85,7 +94,7 @@
 			let str = `<ul>`
 			for(let i = 0; i < data.length; i++){
 				str += `<li>`;
-				str += `<p data-flag="true" onClick="checkNode(event)">${data[i].name}</p>`;
+				str += `<p data-flag="true" onClick="checkNode(event)">${data[i].name}</p><span class="deletes" onClick="deletes(event)">删除</span>`;
 				if(data[i].children && data[i].children.length) {
 					str += tree(data[i].children);
 				}
@@ -100,7 +109,7 @@
 		function checkNode(event) {
 			var flag = event.target
 			// 获取当前点击DOM的同级元素标签
-			var oSibling = event.target.nextSibling;
+			var oSibling = event.target.nextSibling.nextSibling;
 			if(!!oSibling && !!oSibling.childNodes) {
 				var oChild = Array.prototype.slice.call(oSibling.childNodes);
 				for(var i = 0; i < oChild.length; i++){
@@ -116,6 +125,16 @@
 					}
 				}
 			}
+		};
+
+		// 删除
+		function deletes(event) {
+			// 获取到当前节点的父节点，即（ul节点）
+			var oParent = event.target.parentNode.parentNode
+			// 获取到爷爷节点，即（li节点）
+			var oParents = event.target.parentNode.parentNode.parentNode
+			// 删除掉ul节点
+			oParents.removeChild(oParent)
 		}
 
 		// JQ源码转换自定义属性
@@ -131,7 +150,6 @@
 			if ( data === "null" ) {
 				return null;
 			}
-
 			return data;
 		}
 	</script>
