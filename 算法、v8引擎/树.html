@@ -138,9 +138,9 @@
 		// 删除
 		function deletes(event) {
 			// 获取到当前节点的父节点，即（ul节点）
-			var oParent = event.target.parentNode.parentNode
+			var oParent = event.target.parentNode
 			// 获取到爷爷节点，即（li节点）
-			var oParents = event.target.parentNode.parentNode.parentNode
+			var oParents = event.target.parentNode.parentNode
 			// 删除掉ul节点
 			oParents.removeChild(oParent)
 		}
@@ -148,7 +148,7 @@
 		// 添加
 		function add(event) {
 			var oParent = event.target.parentNode
-			var oSpace = document.createElement('p')
+			var oSpace = document.createElement('ul')
 			oParent.appendChild(oSpace)
 			oSpace.innerHTML = createNode()
 		}
@@ -156,13 +156,11 @@
 		// 文本
 		function createNode() {
 			var addStr = `
-						<ul>
 							<li>
 								<p data-flag="true" onClick="checkNode(event)">sdfsdfsd</p>
 								<span class="add" onClick="add(event)">添加</span>
 								<span class="deletes" onClick="deletes(event)">删除</span>
 							</li>
-						</ul>
 					`;
 			return addStr
 		}
