@@ -137,10 +137,25 @@
 
 		// 删除
 		function deletes(event) {
-			// 获取到当前节点的父节点，即（ul节点）
-			var oParent = event.target.parentNode
-			// 获取到爷爷节点，即（li节点）
-			var oParents = event.target.parentNode.parentNode
+			// 获取到当前节点的爷爷节点
+			var oGrandpa = event.target.parentNode.parentNode
+
+			// 获取到当前节点的曾祖父节点
+			var oGreatGrandfather = event.target.parentNode.parentNode.parentNode
+
+			// 表示是祖父节点
+			if(oGreatGrandfather.tagName === 'DIV') {			
+				// 获取到当前节点的父节点，即（ul节点）
+				var oParent = event.target.parentNode
+				// 获取到爷爷节点，即（li节点）
+				var oParents = oGrandpa
+			} else {
+				// 获取到当前节点的父节点，即（ul节点）
+				var oParent = oGrandpa
+				// 获取到爷爷节点，即（li节点）
+				var oParents = oGreatGrandfather
+			}
+
 			// 删除掉ul节点
 			oParents.removeChild(oParent)
 		}
