@@ -91,11 +91,20 @@
 
 			4、实现一个字符串匹配算法，从字符串中，查找是否存在某个字符串，如果存在，得到字符串的长度，并且返回所有查找到的位置
 		*/
-			function searchText(str) {
-				console.log(str)
+			function searchText(source, str) {
+				var array = []
+				for(var i = 0; i < source.length; i++){
+					// console.log(i)
+					if(source[i].indexOf(str) !== -1) {
+						// console.log('出现的位置下标：' + i)
+						array.push(i)
+					}
+				}
+				return array
 			}
-			var str = 'adsfgshlk'
-			searchText(str)
+			var sourceStr = 'adsfgshlk'
+			var str = 's'
+			console.log(searchText(sourceStr, str))
 	</script>
 </body>
 </html>
