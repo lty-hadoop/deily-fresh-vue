@@ -92,11 +92,12 @@
 
 		// 创建树
 		class Tree {
-			constructor(data) {
-				this.$data = data
+			constructor(options) {
+				this.$options = options
+				this.$data = this.$options.data
+				this.$el = document.querySelector(this.$options.el)
 
-				this.LiveTree(this.$data)
-				
+				this.$el.innerHTML = this.LiveTree(this.$data)	
 			}
 
 			// 实例树展示
@@ -227,8 +228,12 @@
 			}
 		}
 
-		var OTreeWrap = document.querySelector('.tree-wrap')
-		OTreeWrap.innerHTML = new Tree(arr).LiveTree(arr)
+
+		// 实例化--调用
+		new Tree({
+			data: arr,
+			el: '.tree-wrap'
+		})
 	</script>
 </body>
 </html>
