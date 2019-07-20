@@ -102,7 +102,6 @@
 
 			// 实例树展示
 			LiveTree(data) {
-				var _this = this
 				var str = `<ul>`
 				for(var i = 0; i < data.length; i++){
 					str += `<li>`;
@@ -115,10 +114,11 @@
 					}
 					str += `</li>`;
 				}
+				
 
 				str += `</ul>`
 				return str
-			}	
+			}
 		}
 
 
