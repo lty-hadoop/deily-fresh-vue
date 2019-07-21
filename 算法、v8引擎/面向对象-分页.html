@@ -64,7 +64,6 @@
                 this.total = 80
                 this.pageSize = (this.total / this.$options.pageSize) || 5
                 this.pageNum = this.$options.pageNum || 1
-                this.currentPage = 1
 
                 this.$ul = document.querySelector('.ul')               
                 this.$ul.innerHTML = this.InitPage(this.pageSize)
@@ -99,7 +98,7 @@
                         this.Siblings(e)
 
                         // 当前点击的值
-                        this.currentPage = e.dataset.index
+                        this.pageNum = e.dataset.index
                         // console.log(e.dataset.index)
                     }.bind(this))
                 }
@@ -121,10 +120,10 @@
                 let prev = document.querySelector('.prev')
                 let $lis = document.querySelectorAll('li')
                 prev.addEventListener('click', function(event){
-                    if(this.currentPage > 1){
-                        this.currentPage--
-                        $lis[this.currentPage - 1].className = 'active'
-                        this.Siblings($lis[this.currentPage - 1])
+                    if(this.pageNum > 1){
+                        this.pageNum--
+                        $lis[this.pageNum - 1].className = 'active'
+                        this.Siblings($lis[this.pageNum - 1])
                     } else {
                         this.DisableBtn(event, 1)
                     }
@@ -136,12 +135,12 @@
                 let next = document.querySelector('.next')
                 let $lis = document.querySelectorAll('li')
                 next.addEventListener('click', function(event){
-                    if(this.currentPage < this.pageSize){
-                        this.currentPage++
-                        $lis[this.currentPage - 1].className = 'active'
-                        this.Siblings($lis[this.currentPage - 1])
+                    if(this.pageNum < this.pageSize){
+                        this.pageNum++
+                        $lis[this.pageNum - 1].className = 'active'
+                        this.Siblings($lis[this.pageNum - 1])
                     } else {
-                        this.DisableBtn(event, this.currentPage)
+                        this.DisableBtn(event, this.pageNum)
                     }
                 }.bind(this))
             }
