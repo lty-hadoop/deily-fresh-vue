@@ -148,16 +148,31 @@
 
             // 禁止按钮
             DisableBtn(event, curIndex) {
-                let e = event.target
-                if(curIndex <= 1){
+                let args = Array.prototype.slice.call(arguments)
+                let curObj = args.first().target
+                if(args[1] <= 1){
                     alert('已经是首页')
+                    this.NotAllowBtn(curObj)
                     return
                 } else if(curIndex == this.pageSize){
                     alert('已经是尾页')
+                    this.NotAllowBtn(curObj)
+                    return
                 }
+            }
+
+            // 禁止按钮样式
+            NotAllowBtn(curObj) {
+                curObj.style.cursor= 'not-allowed'
+                curObj.setAttribute('disabled', true)
             }
         }
 
+        Array.prototype.first = function(){
+            return this[0]
+        }
+        
+        // 实例化分页控件
         new Pagination({
             pageSize: 10,
             pageNum: 1,
