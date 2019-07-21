@@ -105,9 +105,9 @@
 
             // 初始化分页器
             InitPage(data) {
-                let str='';
+                let str = '';
 				for(let i = 1; i <= data; i++){
-					str += `<li data-index="${i}">${i}</li>`;
+					str += `<li data-index="${i}">${i}</li>`
 				}
 				return str             
             }
@@ -208,6 +208,7 @@
                             alert('暂无更多页')
                         } else {
                             this.JumpStyle($lis, number)
+                            oVal.value = ''
                         }
                     } else {
                         alert('请输入')
