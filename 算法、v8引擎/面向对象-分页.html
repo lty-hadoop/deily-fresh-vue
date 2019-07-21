@@ -10,7 +10,6 @@
         .footer{
             width: 100%;
             margin: 20px;
-            overflow: hidden;
             font-size: 13px;
         }
         .prev, .next{
@@ -23,7 +22,11 @@
             cursor: pointer;
             outline: none;
         }
-        ul li {list-style: none; float: left;}
+        ul li {
+            list-style: none;
+            float: left;
+            margin-bottom: 5px;
+        }
         li{
             line-height: 30px;
             margin: 0 5px;
@@ -58,11 +61,12 @@
         class Pagination {
             constructor(options){
                 this.$options = options
-                this.pageSize = this.$options.pageSize || 5
+                this.total = 80
+                this.pageSize = (this.total / this.$options.pageSize) || 5
                 this.pageNum = this.$options.pageNum || 1
-                this.currentPage = 1;
+                this.currentPage = 1
 
-                this.$ul = document.querySelector('.ul')
+                this.$ul = document.querySelector('.ul')               
                 this.$ul.innerHTML = this.InitPage(this.pageSize)
                 this.InitStyle()
                 this.InitClick()
@@ -103,8 +107,8 @@
 
             // 获取同级元素
             Siblings(oLi){
-                var oBox= oLi.parentNode;
-                var lis = oBox.children;
+                var oBox= oLi.parentNode
+                var lis = oBox.children
                 for(var i = 0;i < lis.length; i++){
                     if (lis[i] != oLi){
                         lis[i].className = ''
