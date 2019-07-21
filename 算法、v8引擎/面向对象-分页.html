@@ -33,8 +33,7 @@
             min-width: 30px;
             border: 1px solid #d9d9d9;
             border-radius: 4px;
-            text-align: center;
-            
+            text-align: center;          
             cursor: pointer;
         }
         li.active{
@@ -46,6 +45,32 @@
             border-color: #1890ff;
             color: #1890ff;
         }
+        .jump{
+            float: left;
+            margin-left: 5px;
+        }
+        .jump input {
+            width: 40px;
+            height: 30px;
+            line-height: 30px;
+            padding: 0 3px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            text-align: center;
+            outline: none;
+        }
+        .jump .jump-btn {
+            height: 32px;
+            line-height: 32px;
+            padding: 0 5px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+        }
+        .jump .jump-btn:hover {
+            opacity: .6;
+        }
     </style>
 </head>
 <body>
@@ -55,6 +80,10 @@
             
         </ul>
         <button class="next">></button>
+        <div class="jump">
+            <input type="text" class="oval">
+            <button class="jump-btn">跳转到</button>
+        </div>
     </div>
 
     <script>
@@ -71,6 +100,7 @@
                 this.InitClick()
                 this.PrevClick()
                 this.NextClick()
+                this.Jump()
             }
 
             // 初始化分页器
@@ -84,7 +114,7 @@
 
             // 添加class
             InitStyle() {
-                let $li = document.querySelector('li')
+                let $li = this.Selector('li')
                 $li.className = 'active'
             }
 
@@ -117,8 +147,8 @@
 
             // 上一页
             PrevClick() {
-                let prev = document.querySelector('.prev')
-                let $lis = document.querySelectorAll('li')
+                let prev = this.Selector('.prev'),
+                    $lis = document.querySelectorAll('li');
                 prev.addEventListener('click', function(event){
                     if(this.pageNum > 1){
                         this.pageNum--
@@ -132,8 +162,8 @@
 
             // 下一页
             NextClick() {
-                let next = document.querySelector('.next')
-                let $lis = document.querySelectorAll('li')
+                let next = this.Selector('.next'),
+                    $lis = document.querySelectorAll('li');
                 next.addEventListener('click', function(event){
                     if(this.pageNum < this.pageSize){
                         this.pageNum++
@@ -151,11 +181,11 @@
                 let curObj = args.first().target
                 if(args[1] <= 1){
                     alert('已经是首页')
-                    this.NotAllowBtn(curObj)
+                    // this.NotAllowBtn(curObj)
                     return
                 } else if(curIndex == this.pageSize){
                     alert('已经是尾页')
-                    this.NotAllowBtn(curObj)
+                    // this.NotAllowBtn(curObj)
                     return
                 }
             }
@@ -164,6 +194,38 @@
             NotAllowBtn(curObj) {
                 curObj.style.cursor= 'not-allowed'
                 curObj.setAttribute('disabled', true)
+            }
+
+            // 跳转
+            Jump() {
+                let oJump = this.Selector('.jump-btn'),
+                    oVal = this.Selector('.oval'),
+                    $lis = document.querySelectorAll('li');
+                oJump.addEventListener('click', function(event){
+                    if(!!oVal.value){
+                        let number = Number(oVal.value)
+                        if(number > this.pageSize){
+                            alert('暂无更多页')
+                        } else {
+                            this.JumpStyle($lis, number)
+                        }
+                    } else {
+                        alert('请输入')
+                    }
+                }.bind(this))
+            }
+
+            // 跳转功能
+            JumpStyle(number) {
+                let args = Array.prototype.slice.call(arguments)
+                let node = args.first()
+                node[args[1] - 1].className = 'active'
+                this.Siblings(node[args[1] - 1])
+            }
+
+            // 选择器
+            Selector(ele) {
+                return document.querySelector(ele)
             }
         }
 
