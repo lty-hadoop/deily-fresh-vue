@@ -94,7 +94,7 @@
                 this.pageSize = (this.total / this.$options.pageSize) || 5
                 this.pageNum = this.$options.pageNum || 1
 
-                this.$ul = document.querySelector('.ul')               
+                this.$ul = this.Selector('.ul')
                 this.$ul.innerHTML = this.InitPage(this.pageSize)
                 this.InitStyle()
                 this.InitClick()
