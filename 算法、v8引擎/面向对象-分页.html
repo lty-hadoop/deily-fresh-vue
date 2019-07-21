@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{margin:0;padding:0;}
+        .footer{
+            width: 100%;
+            margin: 20px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+        .prev, .next{
+            float: left;
+            width: 30px;
+            line-height: 30px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            background: #fff;
+            cursor: pointer;
+            outline: none;
+        }
+        ul li {list-style: none; float: left;}
+        li{
+            line-height: 30px;
+            margin: 0 5px;
+            min-width: 30px;
+            border: 1px solid #d9d9d9;
+            border-radius: 4px;
+            text-align: center;
+            
+            cursor: pointer;
+        }
+        li.active{
+            background: #fff;
+            border-color: #1890ff;
+            color: #1890ff;
+        }
+        li:hover{
+            border-color: #1890ff;
+            color: #1890ff;
+        }
+    </style>
+</head>
+<body>
+    <div class="footer">
+        <button class="prev"><</button>
+        <ul class="ul">
+            
+        </ul>
+        <button class="next">></button>
+    </div>
+
+    <script>
+        class Pagination {
+            constructor(options){
+                this.$options = options
+                this.pageSize = this.$options.pageSize || 5
+                this.pageNum = this.$options.pageNum || 1
+                this.currentPage = 1;
+
+                this.$ul = document.querySelector('.ul')
+                this.$ul.innerHTML = this.InitPage(this.pageSize)
+                this.InitStyle()
+                this.InitClick()
+                this.PrevClick()
+                this.NextClick()
+            }
+
+            // 初始化分页器
+            InitPage(data) {
+                let str='';
+				for(let i = 1; i <= data; i++){
+					str += `<li data-index="${i}">${i}</li>`;
+				}
+				return str             
+            }
+
+            // 添加class
+            InitStyle() {
+                let $li = document.querySelector('li')
+                $li.className = 'active'
+            }
+
+            // 添加点击事件
+            InitClick() {
+                let $lis = document.querySelectorAll('li')
+                for(let i = 0; i < $lis.length; i++){
+                    $lis[i].addEventListener('click', function(event){
+                        let e = event.target
+                        e.className = 'active'
+                        this.Siblings(e)
+
+                        // 当前点击的值
+                        this.currentPage = e.dataset.index
+                        // console.log(e.dataset.index)
+                    }.bind(this))
+                }
+            }
+
+            // 获取同级元素
+            Siblings(oLi){
+                var oBox= oLi.parentNode;
+                var lis = oBox.children;
+                for(var i = 0;i < lis.length; i++){
+                    if (lis[i] != oLi){
+                        lis[i].className = ''
+                    }
+                }
+            }
+
+            // 上一页
+            PrevClick() {
+                let prev = document.querySelector('.prev')
+                let $lis = document.querySelectorAll('li')
+                prev.addEventListener('click', function(event){
+                    if(this.currentPage > 1){
+                        this.currentPage--
+                        $lis[this.currentPage - 1].className = 'active'
+                        this.Siblings($lis[this.currentPage - 1])
+                    } else {
+                        this.DisableBtn(event, 1)
+                    }
+                }.bind(this))
+            }
+
+            // 下一页
+            NextClick() {
+                let next = document.querySelector('.next')
+                let $lis = document.querySelectorAll('li')
+                next.addEventListener('click', function(event){
+                    if(this.currentPage < this.pageSize){
+                        this.currentPage++
+                        $lis[this.currentPage - 1].className = 'active'
+                        this.Siblings($lis[this.currentPage - 1])
+                    } else {
+                        this.DisableBtn(event, this.currentPage)
+                    }
+                }.bind(this))
+            }
+
+            // 禁止按钮
+            DisableBtn(event, curIndex) {
+                let e = event.target
+                if(curIndex <= 1){
+                    alert('已经是首页')
+                    return
+                } else if(curIndex == this.pageSize){
+                    alert('已经是尾页')
+                }
+            }
+        }
+
+        new Pagination({
+            pageSize: 10,
+            pageNum: 1,
+        })
+    </script>
+</body>
+</html>
