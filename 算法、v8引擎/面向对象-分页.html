@@ -109,7 +109,7 @@
 				for(let i = 1; i <= data; i++){
 					str += `<li data-index="${i}">${i}</li>`
 				}
-				return str             
+				return str
             }
 
             // 添加class
@@ -181,19 +181,11 @@
                 let curObj = args.first().target
                 if(args[1] <= 1){
                     alert('已经是首页')
-                    // this.NotAllowBtn(curObj)
                     return
                 } else if(curIndex == this.pageSize){
                     alert('已经是尾页')
-                    // this.NotAllowBtn(curObj)
                     return
                 }
-            }
-
-            // 禁止按钮样式
-            NotAllowBtn(curObj) {
-                curObj.style.cursor= 'not-allowed'
-                curObj.setAttribute('disabled', true)
             }
 
             // 跳转
