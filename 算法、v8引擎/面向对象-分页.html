@@ -218,7 +218,7 @@
 
             // 选择器
             Selector(ele) {
-                if(ele.indexOf('.') !== -1) {
+                if(!!ele && ele.indexOf('.') !== -1) {
                     return document.querySelector(ele)
                 } else {
                     return document.querySelectorAll(ele)
