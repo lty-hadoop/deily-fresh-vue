@@ -114,13 +114,13 @@
 
             // 添加class
             InitStyle() {
-                let $li = this.Selector('li')
-                $li.className = 'active'
+                let $lis = this.Selector('li')
+                $lis[this.pageNum - 1].className = 'active'
             }
 
             // 添加点击事件
             InitClick() {
-                let $lis = document.querySelectorAll('li')
+                let $lis = this.Selector('li')
                 for(let i = 0; i < $lis.length; i++){
                     $lis[i].addEventListener('click', function(event){
                         let e = event.target
@@ -148,7 +148,7 @@
             // 上一页
             PrevClick() {
                 let prev = this.Selector('.prev'),
-                    $lis = document.querySelectorAll('li');
+                    $lis = this.Selector('li');
                 prev.addEventListener('click', function(event){
                     if(this.pageNum > 1){
                         this.pageNum--
@@ -163,7 +163,7 @@
             // 下一页
             NextClick() {
                 let next = this.Selector('.next'),
-                    $lis = document.querySelectorAll('li');
+                    $lis = this.Selector('li');
                 next.addEventListener('click', function(event){
                     if(this.pageNum < this.pageSize){
                         this.pageNum++
@@ -192,7 +192,7 @@
             Jump() {
                 let oJump = this.Selector('.jump-btn'),
                     oVal = this.Selector('.oval'),
-                    $lis = document.querySelectorAll('li');
+                    $lis = this.Selector('li');
                 oJump.addEventListener('click', function(event){
                     if(!!oVal.value){
                         let number = Number(oVal.value)
@@ -218,7 +218,11 @@
 
             // 选择器
             Selector(ele) {
-                return document.querySelector(ele)
+                if(ele.indexOf('.') !== -1) {
+                    return document.querySelector(ele)
+                } else {
+                    return document.querySelectorAll(ele)
+                }         
             }
         }
 
