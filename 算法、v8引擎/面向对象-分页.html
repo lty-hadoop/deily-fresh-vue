@@ -199,21 +199,22 @@
                         if(number > this.pageSize){
                             alert('暂无更多页')
                         } else {
-                            this.JumpStyle($lis, number)
-                            oVal.value = ''
+                            this.JumpComp($lis, number)
                         }
                     } else {
                         alert('请输入')
                     }
+                    oVal.value = ''
                 }.bind(this))
             }
 
-            // 跳转功能
-            JumpStyle(number) {
+            // 跳转到
+            JumpComp() {
                 let args = Array.prototype.slice.call(arguments)
                 let node = args.first()
                 node[args[1] - 1].className = 'active'
                 this.Siblings(node[args[1] - 1])
+                this.pageNum = args[1]
             }
 
             // 选择器
