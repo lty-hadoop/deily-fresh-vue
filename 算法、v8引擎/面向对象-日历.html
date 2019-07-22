@@ -84,17 +84,11 @@
 				//获取当月第一天是周几
     			let weekStart = new Date(currentYear, currentMonth-1, 1).getDay()
 
-    			// console.log(weekStart)
-
-    			if(weekStart == 0) weekStart = 7
-
 				//展示当月日期需要的行数
-			    let cluNum = Math.ceil((weekStart + dayNum - 1)/7);
-
-			    let allNum = cluNum * 7;
+			    let lineNum = Math.ceil((weekStart + dayNum - 1));
 
 			    let $li = '', currentDay ='';
-			    for(var i = 1; i <= allNum; i++){
+			    for(var i = 1; i <= lineNum; i++){
 			    	currentDay = i - weekStart + 1;
 
 			    	// console.log(i)
