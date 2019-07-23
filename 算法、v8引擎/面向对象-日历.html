@@ -136,7 +136,7 @@
 			// 样式
 			AddClass(weekStart) {
 				let $lis = document.querySelectorAll('li')
-		        $lis[this.oDay + weekStart].className = 'current_day'
+		        $lis[this.oDay - 1 + weekStart].className = 'current_day'
 			}
 
 			// 当前点击元素
