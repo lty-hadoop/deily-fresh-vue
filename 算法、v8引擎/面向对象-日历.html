@@ -40,6 +40,8 @@
 		}
 		li:hover {
 			cursor: pointer;
+			background: #cdefe7;
+			border-radius: 50%;
 		}
 	</style>
 </head>
@@ -61,8 +63,7 @@
 				this.oW = document.querySelector('.week')
 			
 				this.oW.innerHTML = this.InitCalendar(this.oWeek)
-				this.Render(this.oYear, this.oMonth)
-				this.AddClass(this.oDay)
+				this.Render(this.oYear, this.oMonth)				
 				this.CurrentEle()
 			}
 
@@ -85,31 +86,31 @@
     			let weekStart = new Date(currentYear, currentMonth-1, 1).getDay()
 
 				//展示当月日期需要的行数
-			    let lineNum = Math.ceil((weekStart + dayNum - 1));
+			    let lineNum = Math.ceil(dayNum);
 
-			    let $li = '', currentDay ='';
+			    let $li = '';
 			    for(var i = 1; i <= lineNum; i++){
-			    	currentDay = i - weekStart + 1;
-
-			    	// console.log(i)
-			    	// console.log(i-weekStart)
-			    	// console.log(dayNum)
-			    	// console.log((i-weekStart) < dayNum)
-		    		if(i >= weekStart && (i-weekStart) < dayNum) {
-		      			$li += `<li>${currentDay}</li>`;
-		        		$ul.innerHTML = $li
-		      		}
-		      		// else {
-		      		// 	$ul.innerHTML = `<li></li>`
-		      		// }
-		      		$ul.innerHTML
+	      			$li += `<li>${i}</li>`;
+	        		$ul.innerHTML = $li
 		    	}
+
+
+		    	for(var j = 1; j <= weekStart; j++){
+		    		let li = document.createElement("li")
+		    		li.innerHTML += `<li></li>`
+
+		    		// 获取第一个li标签
+		    		let first = $ul.firstChild
+		    		$ul.insertBefore(li, first)
+		    	}
+
+		    	this.AddClass(weekStart)
 			}
 
 			// 样式
-			AddClass(currentDay) {
+			AddClass(weekStart) {
 				let $lis = document.querySelectorAll('li')
-		        $lis[this.oDay - 1].className = 'current_day'
+		        $lis[this.oDay + weekStart].className = 'current_day'
 			}
 
 			// 当前点击元素
