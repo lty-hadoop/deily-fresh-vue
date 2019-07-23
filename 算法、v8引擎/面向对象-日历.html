@@ -10,6 +10,25 @@
 			margin: 10px 0 0 20px;
 			box-sizing: border-box;
 		}
+		.header {
+			display: flex;
+			justify-content: space-between;
+			width: 245px;
+			height: 30px;
+			line-height: 30px;
+			background: #84f9d4;
+		}
+		.arrow-left {
+			padding-left: 10px;
+			cursor: pointer;
+		}
+		.arrow-right {
+			padding-right: 10px;
+			cursor: pointer;
+		}
+		.year, .month {
+			font-weight: normal;
+		}
 		.week {
 			width: 245px;
 		}
@@ -47,6 +66,12 @@
 </head>
 <body>
 	<div id="calendar">
+		<div class="header">
+			<span class="arrow-left"><</span>
+			<b class="year"></b>
+			<strong class="month"></strong>
+			<i class="arrow-right">></i>
+		</div>
 		<div class="week"></div>
 		<ul class="list"></ul>
 	</div>
@@ -63,8 +88,10 @@
 				this.oW = document.querySelector('.week')
 			
 				this.oW.innerHTML = this.InitCalendar(this.oWeek)
-				this.Render(this.oYear, this.oMonth)				
+				this.Render(this.oYear, this.oMonth)
 				this.CurrentEle()
+				this.HandlePrev()
+				this.HandleNext()
 			}
 
 			// 初始化日历
@@ -78,7 +105,9 @@
 
 			// 渲染
 			Render(currentYear, currentMonth) {
-				let $ul = document.querySelector('.list')
+				let $ul = this.Selector('.list')
+				let year = this.Selector('.year').innerHTML = currentYear + '年'
+				let month = this.Selector('.month').innerHTML = currentMonth + '月'
 				// 获取当月天数
 				let dayNum = new Date(currentYear, currentMonth, 0).getDate()
 
@@ -86,7 +115,7 @@
     			let weekStart = new Date(currentYear, currentMonth-1, 1).getDay()
 
 				//展示当月日期需要的行数
-			    let lineNum = Math.ceil(dayNum);
+			    let lineNum = Math.ceil(dayNum)
 
 			    let $li = '';
 			    for(var i = 1; i <= lineNum; i++){
@@ -94,10 +123,9 @@
 	        		$ul.innerHTML = $li
 		    	}
 
-
 		    	for(var j = 1; j <= weekStart; j++){
 		    		let li = document.createElement("li")
-		    		li.innerHTML += `<li></li>`
+		    		li.innerHTML += ``
 
 		    		// 获取第一个li标签
 		    		let first = $ul.firstChild
@@ -121,6 +149,41 @@
                         console.log(event.target.innerHTML)
                     }.bind(this))
                 }
+			}
+
+			// 上一页
+			HandlePrev() {
+				let arrowLeft = this.Selector('.arrow-left')
+				arrowLeft.addEventListener('click', function(event){
+					if(this.oMonth > 1){
+						this.oMonth--
+					} else {
+						this.oMonth = 12
+						this.oYear--
+					}
+				let year = this.Selector('.year').innerHTML = this.oYear
+				this.Render(this.oYear, this.oMonth)
+				}.bind(this))
+			}
+
+			// 下一页
+			HandleNext() {
+				let arrowRight = this.Selector('.arrow-right')
+				arrowRight.addEventListener('click', function(event){
+					if(this.oMonth < 12){
+						this.oMonth++
+					} else {
+						this.oMonth = 1
+						this.oYear++
+					}
+				let year = this.Selector('.year').innerHTML = this.oYear
+				this.Render(this.oYear, this.oMonth)
+				}.bind(this))
+			}
+
+			// 选择器
+			Selector(ele) {
+				return document.querySelector(ele)
 			}
 		}
 
