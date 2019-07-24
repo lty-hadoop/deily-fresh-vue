@@ -12,6 +12,23 @@
             margin: 20px;
             font-size: 13px;
         }
+        .total {
+            float: left;
+            line-height: 30px;
+            margin-right: 10px;
+        }
+        .total .total-num {
+            margin: 0 5px;
+        }
+        .select {
+            float: left;
+            height: 30px;
+            line-height: 30px;
+            margin-right: 10px;
+            border: 1px solid #cfcfd4;
+            border-radius: 4px;
+            cursor: pointer;
+        }
         .prev, .next{
             float: left;
             width: 30px;
@@ -75,6 +92,11 @@
 </head>
 <body>
     <div class="footer">
+        <div class="total">共<span class="total-num">100</span>页</div>
+        <select class="select">
+            <option value="10" selected>10条/页</option>
+            <option value="20">20条/页</option>
+        </select>
         <button class="prev"><</button>
         <ul class="ul">
             
@@ -90,17 +112,38 @@
         class Pagination {
             constructor(options){
                 this.$options = options
-                this.total = 80
-                this.pageSize = (this.total / this.$options.pageSize) || 5
+                this.total = this.$options.total
+                // this.pageSize = (this.total / this.$options.pageSize)
                 this.pageNum = this.$options.pageNum || 1
 
-                this.$ul = this.Selector('.ul')
-                this.$ul.innerHTML = this.InitPage(this.pageSize)
+                this.InitPaginNum()                            
                 this.InitStyle()
-                this.InitClick()
+                this.InitClick()               
                 this.PrevClick()
                 this.NextClick()
                 this.Jump()
+            }
+
+            // 选择每页显示多少条
+            InitPaginNum() {
+                let $ul = this.Selector('.ul')
+                let oSelect = this.Selector('.select')
+                this.Selector('.total-num').innerHTML = this.total
+
+                let index = oSelect.selectedIndex; // 选中索引              
+                let value = oSelect.options[index].value; //选中值
+
+                this.pageSize = Math.ceil(this.total / value)
+
+                // 初始化的option的值               
+                $ul.innerHTML = this.InitPage(this.pageSize)
+
+                // 改变后的option的值
+                oSelect.addEventListener('change', function(event){
+                    let changeVal = event.target.value
+                    this.pageSize = Math.ceil(this.total / changeVal)
+                    $ul.innerHTML = this.InitPage(this.pageSize)
+                }.bind(this))
             }
 
             // 初始化分页器
@@ -235,6 +278,7 @@
         new Pagination({
             pageSize: 10,
             pageNum: 1,
+            total: 100
         })
     </script>
 </body>
