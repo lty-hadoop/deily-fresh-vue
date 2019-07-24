@@ -69,7 +69,6 @@
 		<div class="header">
 			<span class="arrow-left"><</span>
 			<b class="year"></b>
-			<strong class="month"></strong>
 			<i class="arrow-right">></i>
 		</div>
 		<div class="week"></div>
@@ -106,8 +105,7 @@
 			// 渲染
 			Render(currentYear, currentMonth) {
 				let $ul = this.Selector('.list')
-				let year = this.Selector('.year').innerHTML = currentYear + '年'
-				let month = this.Selector('.month').innerHTML = currentMonth + '月'
+				let year = this.Selector('.year').innerHTML = currentYear + '年' + currentMonth + '月'
 				// 获取当月天数
 				let dayNum = new Date(currentYear, currentMonth, 0).getDate()
 
@@ -138,7 +136,7 @@
 			// 样式
 			AddClass(weekStart) {
 				let $lis = document.querySelectorAll('li')
-		        $lis[this.oDay + weekStart].className = 'current_day'
+		        $lis[this.oDay - 1 + weekStart].className = 'current_day'
 			}
 
 			// 当前点击元素
@@ -161,7 +159,6 @@
 						this.oMonth = 12
 						this.oYear--
 					}
-				let year = this.Selector('.year').innerHTML = this.oYear
 				this.Render(this.oYear, this.oMonth)
 				}.bind(this))
 			}
