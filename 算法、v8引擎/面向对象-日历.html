@@ -52,6 +52,11 @@
 			text-align: center;
 			color: #353A41;
 		}
+		li.active {
+			background-color: #aee4d7;
+  			border-radius: 50%;
+			color: #009A70;
+		}
 		li.current_day {
 			background-color: #ACEBDC;
   			border-radius: 50%;
@@ -144,7 +149,9 @@
 				let $lis = document.querySelectorAll('li')
 				for(let i = 0; i < $lis.length; i++){
                     $lis[i].addEventListener('click', function(event){
-                        console.log(event.target.innerHTML)
+                        // console.log(event.target.innerHTML)
+						event.target.className = 'active'
+						this.Siblings(event.target)
                     }.bind(this))
                 }
 			}
@@ -177,6 +184,17 @@
 				this.Render(this.oYear, this.oMonth)
 				}.bind(this))
 			}
+
+			// 获取同级元素
+			Siblings(oLi){
+                var oBox= oLi.parentNode
+                var lis = oBox.children
+                for(var i = 0;i < lis.length; i++){
+                    if (lis[i] != oLi){
+                        lis[i].className = ''
+                    }
+                }
+            }
 
 			// 选择器
 			Selector(ele) {
