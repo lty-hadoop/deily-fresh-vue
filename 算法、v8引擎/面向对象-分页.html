@@ -22,15 +22,12 @@
             cursor: pointer;
             outline: none;
         }
-        ul li {
+        li{
             list-style: none;
             float: left;
-            margin-bottom: 5px;
-        }
-        li{
             line-height: 30px;
             margin: 0 5px;
-            min-width: 30px;
+            width: 30px;
             border: 1px solid #d9d9d9;
             border-radius: 4px;
             text-align: center;          
@@ -71,6 +68,13 @@
         .jump .jump-btn:hover {
             opacity: .6;
         }
+        .clearfix::after {
+            content: "";
+            display: block;
+            height: 0;
+            clear: both;
+            visibility: hidden;;
+        }
     </style>
 </head>
 <body>
@@ -93,6 +97,7 @@
                 this.total = this.$options.total
                 this.pageSize = (this.total / this.$options.pageSize)
                 this.pageNum = this.$options.pageNum || 1
+                this.pagerCount = this.$options.pagerCount
                           
                 this.$ul = this.Selector('.ul')
                 this.$ul.innerHTML = this.InitPage(this.pageSize)
@@ -235,7 +240,8 @@
         new Pagination({
             pageSize: 10,
             pageNum: 1,
-            total: 100
+            total: 100,
+            pagerCount: 5
         })
     </script>
 </body>
