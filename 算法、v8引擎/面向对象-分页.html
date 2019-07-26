@@ -84,9 +84,9 @@
             
         </ul>
         <button class="next">></button>
-        <div class="jump">
+        <div class="jump">           
             <input type="text" class="oval">
-            <button class="jump-btn">跳转到</button>
+            <button class="jump-btn">前往</button>     
         </div> -->
     </div>
 
@@ -95,37 +95,37 @@
             constructor(options){
                 this.$options = options
                 // DOM节点
-                this.$el = this.Selector(this.$options.el)
+                this.$el = this.selector(this.$options.el)
                 // 总条数
                 this.total = this.$options.total
                 // 总页数
                 this.pageSize = (this.total / this.$options.pageSize)
                 // 当前页
-                this.pageNum = this.$options.pageNum || 1
+                this.currentPage = this.$options.currentPage || 1
                 // 显示多少页
                 this.pagerCount = this.$options.pagerCount
                 
                 // 判断奇偶
-                this.JudgeParity()
+                this.judgeParity()
                 // 统一点击
-                this.PublicHandle()
+                this.publicHandle()
             }
 
             // 初始化分页器
-            InitPage() {
-                this.pageNum = Number(this.pageNum)
+            initPage() {
+                this.currentPage = Number(this.currentPage)
                 // 求奇偶数
                 let offPage = (this.pagerCount - 1) / 2
                 // 开始页
-                let startPage = this.pageNum - offPage
+                let startPage = this.currentPage - offPage
                 // 结束页
-                let endPage = this.pageNum + offPage
+                let endPage = this.currentPage + offPage
 
-                if (this.pageNum < offPage + 1) {
+                if (this.currentPage < offPage + 1) {
                     startPage = 1
                     endPage = 2 * offPage + 1
                 };
-                if (this.pageNum + offPage > this.pageSize) {
+                if (this.currentPage + offPage > this.pageSize) {
                     startPage = this.pageSize - 2 * offPage
                     endPage = this.pageSize
                 }
@@ -137,7 +137,7 @@
                 // str += '<li class="more-prex">...</li>'
 
 				for(let i = startPage; i <= endPage; i++){
-					if(this.pageNum == i){
+					if(this.currentPage == i){
                         str += `<li class="col active">${i}</li>`
                     } else {
                         str += `<li class="col">${i}</li>`
@@ -148,7 +148,7 @@
                 str += '<button class="next" oncli>></button>'
                 str += `<div class="jump">
                             <input type="text" class="oval">
-                            <button class="jump-btn">跳转到</button>
+                            <button class="jump-btn">前往</button>
                         </div>`
 
                 // str += '<li class="more-prex">...</li>'
@@ -157,49 +157,49 @@
             }
 
             // 统一点击事件
-            PublicHandle() {
+            publicHandle() {
                 this.$el.onclick = function(event) {
                     let e = event.target
                     if (e.tagName === 'LI' && e.className === 'col'){
-                        this.InitClick(e.innerHTML)
+                        this.initClick(e.innerHTML)
                     } else if (e.tagName === 'BUTTON' && e.className === 'prev'){
-                        this.PrevClick(e)
+                        this.prevClick(e)
                     } else if (e.tagName === 'BUTTON' && e.className === 'next') {
-                        this.NextClick(e)
+                        this.nextClick(e)
                     } else if (e.tagName === 'BUTTON' && e.className === 'jump-btn') {
-                        this.Jump()
+                        this.jump()
                     }
                 }.bind(this)
             }
 
             // 添加点击事件
-            InitClick(val) {
-                this.pageNum = Number(val)
-                this.InitPage(this.pageNum)
+            initClick(val) {
+                this.currentPage = Number(val)
+                this.initPage(this.currentPage)
             }
 
             // 上一页
-            PrevClick(e) {
-                if(this.pageNum > 1){
-                    this.pageNum--
-                    this.InitPage(this.pageNum)
+            prevClick(e) {
+                if(this.currentPage > 1){
+                    this.currentPage--
+                    this.initPage(this.currentPage)
                 } else {
-                    this.DisableBtn(e, 1)
+                    this.disableBtn(e, 1)
                 }
             }
 
             // 下一页
-            NextClick(e) {
-                if(this.pageNum < this.pageSize){
-                    this.pageNum++
-                    this.InitPage(this.pageNum)
+            nextClick(e) {
+                if(this.currentPage < this.pageSize){
+                    this.currentPage++
+                    this.initPage(this.currentPage)
                 } else {
-                    this.DisableBtn(e, this.pageNum)
+                    this.disableBtn(e, this.currentPage)
                 }
             }
 
             // 禁止按钮
-            DisableBtn(event, curIndex) {
+            disableBtn(event, curIndex) {
                 let args = Array.prototype.slice.call(arguments)
                 let curObj = args.first().target
                 if(args[1] <= 1){
@@ -212,36 +212,35 @@
             }
 
             // 跳转
-            Jump() {      
-                let oVal = this.Selector('.oval'),
+            jump() {      
+                let oVal = this.selector('.oval'),
                     e = event.target;
 
                 if(!!oVal.value){
-                    this.pageNum = Number(oVal.value)
-                    if(this.pageNum > this.pageSize){
+                    this.currentPage = Number(oVal.value)
+                    if(this.currentPage > this.pageSize){
                         alert('暂无更多页')
                     } else {
-                        this.InitPage(this.pageNum)
+                        this.initPage(this.currentPage)
                     }
                 } else {
                     alert('请输入')
                 }
             }
 
-
             // 判断奇偶
-            JudgeParity() {
+            judgeParity() {
                 if(this.pagerCount % 2 == 0) {
                     // 表示是偶数
                     alert('请传入基数')
                     return
                 } else {
-                    this.InitPage()
+                    this.initPage()
                 }
             }
 
             // 选择器
-            Selector(ele) {
+            selector(ele) {
                 if(!!ele && ele.indexOf('.') !== -1) {
                     return document.querySelector(ele)
                 } else {
@@ -255,12 +254,12 @@
         }
         
         // 实例化分页控件
-        new Pagination({
+        var pagination = new Pagination({
             el: '.footer',
             pageSize: 10,
-            pageNum: 5,
+            currentPage: 5,
             total: 100,
-            pagerCount: 5
+            pagerCount: 5,
         })
     </script>
 </body>
