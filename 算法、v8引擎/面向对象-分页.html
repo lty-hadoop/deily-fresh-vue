@@ -79,7 +79,15 @@
 </head>
 <body>
     <div class="footer">
-        
+        <button class="prev"><</button>
+        <ul class="ul">
+            
+        </ul>
+        <button class="next">></button>
+        <div class="jump">
+            <input type="text" class="oval">
+            <button class="jump-btn">跳转到</button>
+        </div>
     </div>
 
     <script>
@@ -96,6 +104,7 @@
                 this.pageNum = this.$options.pageNum || 1
                 // 显示多少页
                 this.pagerCount = this.$options.pagerCount
+                this.$ul = this.Selector('.ul')
                 
                 // 判断奇偶
                 this.JudgeParity()
@@ -138,6 +147,7 @@
 
                 // str += '<li class="more-prex">...</li>'
                 // str += `<li>${this.pageSize}</li>`
+                this.$ul.innerHTML = str
             }
 
             // 添加点击事件
