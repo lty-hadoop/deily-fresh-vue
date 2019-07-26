@@ -103,12 +103,11 @@
                 // 显示多少页
                 this.pagerCount = this.$options.pagerCount
                 this.$ul = this.Selector('.ul')
-                          
-                this.InitPage()
-                this.InitClick()
-                this.PrevClick()
-                this.NextClick()
-                this.Jump()
+                
+                // 判断奇偶
+                this.JudgeParity()
+                
+                
             }
 
             // 初始化分页器
@@ -214,6 +213,22 @@
                     }
                     oVal.value = ''
                 }.bind(this)
+            }
+
+
+            // 判断奇偶
+            JudgeParity() {
+                if(this.pagerCount % 2 == 0) {
+                    // 表示是偶数
+                    alert('请传入基数')
+                    return
+                } else {
+                    this.InitPage()
+                    this.InitClick()
+                    this.PrevClick()
+                    this.NextClick()
+                    this.Jump()
+                }
             }
 
             // 选择器
