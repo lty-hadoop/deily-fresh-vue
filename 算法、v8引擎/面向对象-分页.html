@@ -94,90 +94,94 @@
         class Pagination {
             constructor(options){
                 this.$options = options
+                // 总条数
                 this.total = this.$options.total
+                // 总页数
                 this.pageSize = (this.total / this.$options.pageSize)
+                // 当前页
                 this.pageNum = this.$options.pageNum || 1
+                // 显示多少页
                 this.pagerCount = this.$options.pagerCount
-                          
                 this.$ul = this.Selector('.ul')
-                this.$ul.innerHTML = this.InitPage(this.pageSize)
-                this.InitStyle()
-                this.InitClick()               
+                          
+                this.InitPage()
+                this.InitClick()
                 this.PrevClick()
                 this.NextClick()
                 this.Jump()
             }
 
             // 初始化分页器
-            InitPage(data) {
-                let str = '';
-				for(let i = 1; i <= data; i++){
-					str += `<li data-index="${i}">${i}</li>`
-				}
-				return str
-            }
+            InitPage() {
+                this.pageNum = Number(this.pageNum)
+                // 求奇偶数
+                let offPage = (this.pagerCount - 1) / 2
+                // 开始页
+                let startPage = this.pageNum - offPage
+                // 结束页
+                let endPage = this.pageNum + offPage
 
-            // 添加class
-            InitStyle() {
-                let $lis = this.Selector('li')
-                $lis[this.pageNum - 1].className = 'active'
+                if (this.pageNum < offPage + 1) {
+                    startPage = 1
+                    endPage = 2 * offPage + 1
+                };
+                if (this.pageNum + offPage > this.pageSize) {
+                    startPage = this.pageSize - 2 * offPage
+                    endPage = this.pageSize
+                }
+
+                let str = '';
+                // str += '<li>1</li>'
+                // str += '<li class="more-prex">...</li>'
+
+				for(let i = startPage; i <= endPage; i++){
+					if(this.pageNum == i){
+                        str += `<li class="active">${i}</li>`
+                    } else {
+                        str += `<li>${i}</li>`
+                    }
+				}
+
+                // str += '<li class="more-prex">...</li>'
+                // str += `<li>${this.pageSize}</li>`
+
+                this.$ul.innerHTML = str
             }
 
             // 添加点击事件
             InitClick() {
-                let $lis = this.Selector('li')
-                for(let i = 0; i < $lis.length; i++){
-                    $lis[i].addEventListener('click', function(event){
-                        let e = event.target
-                        e.className = 'active'
-                        this.Siblings(e)
-
-                        // 当前点击的值
-                        this.pageNum = e.dataset.index
-                        // console.log(e.dataset.index)
-                    }.bind(this))
-                }
+                let $ul = this.Selector('.ul')
+                $ul.onclick = function(event){
+                    this.pageNum = Number(event.target.innerHTML)
+                    this.InitPage(this.pageNum)
+                }.bind(this)
             }
 
-            // 获取同级元素
-            Siblings(oLi){
-                var oBox= oLi.parentNode
-                var lis = oBox.children
-                for(var i = 0;i < lis.length; i++){
-                    if (lis[i] != oLi){
-                        lis[i].className = ''
-                    }
-                }
-            }
 
             // 上一页
             PrevClick() {
-                let prev = this.Selector('.prev'),
-                    $lis = this.Selector('li');
-                prev.addEventListener('click', function(event){
+                let prev = this.Selector('.prev');
+                prev.onclick = function(event) {
                     if(this.pageNum > 1){
                         this.pageNum--
-                        $lis[this.pageNum - 1].className = 'active'
-                        this.Siblings($lis[this.pageNum - 1])
+                        this.InitPage(this.pageNum)
                     } else {
                         this.DisableBtn(event, 1)
                     }
-                }.bind(this))
+                }.bind(this)
             }
 
             // 下一页
             NextClick() {
-                let next = this.Selector('.next'),
-                    $lis = this.Selector('li');
-                next.addEventListener('click', function(event){
+                let next = this.Selector('.next');
+                next.onclick = function(event) {
                     if(this.pageNum < this.pageSize){
                         this.pageNum++
-                        $lis[this.pageNum - 1].className = 'active'
-                        this.Siblings($lis[this.pageNum - 1])
+                        this.InitPage(this.pageNum)
                     } else {
                         this.DisableBtn(event, this.pageNum)
                     }
-                }.bind(this))
+                }.bind(this)
             }
 
             // 禁止按钮
@@ -196,30 +200,20 @@
             // 跳转
             Jump() {
                 let oJump = this.Selector('.jump-btn'),
-                    oVal = this.Selector('.oval'),
-                    $lis = this.Selector('li');
-                oJump.addEventListener('click', function(event){
+                    oVal = this.Selector('.oval');
+                oJump.onclick = function(event) {
                     if(!!oVal.value){
-                        let number = Number(oVal.value)
-                        if(number > this.pageSize){
+                        this.pageNum = Number(oVal.value)
+                        if(this.pageNum > this.pageSize){
                             alert('暂无更多页')
                         } else {
-                            this.JumpComp($lis, number)
+                            this.InitPage(this.pageNum)
                         }
                     } else {
                         alert('请输入')
                     }
                     oVal.value = ''
-                }.bind(this))
-            }
-
-            // 跳转到
-            JumpComp() {
-                let args = Array.prototype.slice.call(arguments)
-                let node = args.first()
-                node[args[1] - 1].className = 'active'
-                this.Siblings(node[args[1] - 1])
-                this.pageNum = args[1]
+                }.bind(this)
             }
 
             // 选择器
@@ -239,7 +233,7 @@
         // 实例化分页控件
         new Pagination({
             pageSize: 10,
-            pageNum: 1,
+            pageNum: 5,
             total: 100,
             pagerCount: 5
         })
