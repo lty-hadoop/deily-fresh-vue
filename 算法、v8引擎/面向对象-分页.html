@@ -94,6 +94,8 @@
         class Pagination {
             constructor(options){
                 this.$options = options
+                // DOM节点
+                this.$el = this.Selector(this.$options.el)
                 // 总条数
                 this.total = this.$options.total
                 // 总页数
@@ -106,8 +108,10 @@
                 
                 // 判断奇偶
                 this.JudgeParity()
-                
-                
+                this.InitClick()
+                this.PrevClick()
+                this.NextClick()
+                this.Jump()
             }
 
             // 初始化分页器
@@ -143,7 +147,6 @@
 
                 // str += '<li class="more-prex">...</li>'
                 // str += `<li>${this.pageSize}</li>`
-
                 this.$ul.innerHTML = str
             }
 
@@ -224,10 +227,6 @@
                     return
                 } else {
                     this.InitPage()
-                    this.InitClick()
-                    this.PrevClick()
-                    this.NextClick()
-                    this.Jump()
                 }
             }
 
@@ -247,6 +246,7 @@
         
         // 实例化分页控件
         new Pagination({
+            el: '.footer',
             pageSize: 10,
             pageNum: 5,
             total: 100,
