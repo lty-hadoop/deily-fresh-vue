@@ -79,7 +79,7 @@
 </head>
 <body>
     <div class="footer">
-        <button class="prev"><</button>
+        <!-- <button class="prev"><</button>
         <ul class="ul">
             
         </ul>
@@ -87,7 +87,7 @@
         <div class="jump">
             <input type="text" class="oval">
             <button class="jump-btn">跳转到</button>
-        </div>
+        </div> -->
     </div>
 
     <script>
@@ -104,7 +104,7 @@
                 this.pageNum = this.$options.pageNum || 1
                 // 显示多少页
                 this.pagerCount = this.$options.pagerCount
-                this.$ul = this.Selector('.ul')
+                // this.$ul = this.Selector('.ul')
                 
                 // 判断奇偶
                 this.JudgeParity()
@@ -134,6 +134,8 @@
                 }
 
                 let str = '';
+                    str += '<button class="prev"><</button>'
+                    str += '<ul class="ul">'
                 // str += '<li>1</li>'
                 // str += '<li class="more-prex">...</li>'
 
@@ -145,45 +147,58 @@
                     }
 				}
 
+                str += '</ul>'
+                str += '<button class="next" oncli>></button>'
+                str += `<div class="jump">
+                            <input type="text" class="oval">
+                            <button class="jump-btn">跳转到</button>
+                        </div>`
+
                 // str += '<li class="more-prex">...</li>'
                 // str += `<li>${this.pageSize}</li>`
-                this.$ul.innerHTML = str
+                this.$el.innerHTML = str
             }
 
             // 添加点击事件
             InitClick() {
-                let $ul = this.Selector('.ul')
-                $ul.onclick = function(event){
-                    this.pageNum = Number(event.target.innerHTML)
-                    this.InitPage(this.pageNum)
-                }.bind(this)
+                this.$el.addEventListener('click', function(event){
+                    let e = event.target
+                    if(e.tagName == 'LI'){
+                        this.pageNum = Number(event.target.innerHTML)
+                        this.InitPage(this.pageNum)
+                    }
+                }.bind(this))
             }
 
 
             // 上一页
             PrevClick() {
-                let prev = this.Selector('.prev');
-                prev.onclick = function(event) {
-                    if(this.pageNum > 1){
-                        this.pageNum--
-                        this.InitPage(this.pageNum)
-                    } else {
-                        this.DisableBtn(event, 1)
+                this.$el.addEventListener('click', function(event){
+                    let e = event.target
+                    if(e.tagName === 'BUTTON' && e.innerText === '<'){
+                        if(this.pageNum > 1){
+                            this.pageNum--
+                            this.InitPage(this.pageNum)
+                        } else {
+                            this.DisableBtn(event, 1)
+                        }
                     }
-                }.bind(this)
+                }.bind(this))
             }
 
             // 下一页
             NextClick() {
-                let next = this.Selector('.next');
-                next.onclick = function(event) {
-                    if(this.pageNum < this.pageSize){
-                        this.pageNum++
-                        this.InitPage(this.pageNum)
-                    } else {
-                        this.DisableBtn(event, this.pageNum)
+                this.$el.addEventListener('click', function(event){
+                    let e = event.target
+                    if(e.tagName === 'BUTTON' && e.innerText === '>'){
+                        if(this.pageNum < this.pageSize){
+                            this.pageNum++
+                            this.InitPage(this.pageNum)
+                        } else {
+                            this.DisableBtn(event, this.pageNum)
+                        }
                     }
-                }.bind(this)
+                }.bind(this))
             }
 
             // 禁止按钮
@@ -201,21 +216,23 @@
 
             // 跳转
             Jump() {
-                let oJump = this.Selector('.jump-btn'),
-                    oVal = this.Selector('.oval');
-                oJump.onclick = function(event) {
-                    if(!!oVal.value){
-                        this.pageNum = Number(oVal.value)
-                        if(this.pageNum > this.pageSize){
-                            alert('暂无更多页')
+                this.$el.addEventListener('click', function(event){
+                    let oVal = this.Selector('.oval'),
+                        e = event.target;
+
+                    if(e.tagName === 'BUTTON' && e.className === 'jump-btn'){
+                        if(!!oVal.value){
+                            this.pageNum = Number(oVal.value)
+                            if(this.pageNum > this.pageSize){
+                                alert('暂无更多页')
+                            } else {
+                                this.InitPage(this.pageNum)
+                            }
                         } else {
-                            this.InitPage(this.pageNum)
+                            alert('请输入')
                         }
-                    } else {
-                        alert('请输入')
                     }
-                    oVal.value = ''
-                }.bind(this)
+                }.bind(this))
             }
 
 
@@ -246,6 +263,7 @@
         
         // 实例化分页控件
         new Pagination({
+            el: '.footer',
             pageSize: 10,
             pageNum: 5,
             total: 100,
