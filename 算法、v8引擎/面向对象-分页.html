@@ -199,7 +199,7 @@
                     this.currentPage--
                     this.initPage(this.currentPage)
                 } else {
-                    this.disableBtn(e, 1)
+                    this.disableBtn(e)
                 }
                 this.$callBack(this.currentPage)
             }
@@ -215,14 +215,12 @@
                 this.$callBack(this.currentPage)
             }
 
-            // 禁止按钮
-            disableBtn(event, curIndex) {
-                let args = Array.prototype.slice.call(arguments)
-                let curObj = args.first().target
-                if(args[1] <= 1){
+            // 弹出提示
+            disableBtn(event) {
+                if(this.currentPage <= 1){
                     alert('已经是首页')
                     return
-                } else if(curIndex == this.pageSize){
+                } else if(this.currentPage == this.pageSize){
                     alert('已经是尾页')
                     return
                 }
