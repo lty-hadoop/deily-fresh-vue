@@ -104,11 +104,25 @@
                 this.currentPage = this.$options.currentPage || 1
                 // 显示多少页
                 this.pagerCount = this.$options.pagerCount
+                // 回调方法
+                this.$callBack = this.$options.callBack || function() {}
                 
+                this.$callBack(this.currentPage)
                 // 判断奇偶
                 this.judgeParity()
                 // 统一点击
                 this.publicHandle()
+            }
+
+            // 判断传入进来的pagerCount的奇偶
+            judgeParity() {
+                if(this.pagerCount % 2 == 0) {
+                    // 表示是偶数
+                    alert('请传入基数')
+                    return
+                } else {
+                    this.initPage()
+                }
             }
 
             // 初始化分页器
@@ -176,6 +190,7 @@
             initClick(val) {
                 this.currentPage = Number(val)
                 this.initPage(this.currentPage)
+                this.$callBack(this.currentPage)
             }
 
             // 上一页
@@ -186,6 +201,7 @@
                 } else {
                     this.disableBtn(e, 1)
                 }
+                this.$callBack(this.currentPage)
             }
 
             // 下一页
@@ -196,6 +212,7 @@
                 } else {
                     this.disableBtn(e, this.currentPage)
                 }
+                this.$callBack(this.currentPage)
             }
 
             // 禁止按钮
@@ -226,17 +243,7 @@
                 } else {
                     alert('请输入')
                 }
-            }
-
-            // 判断奇偶
-            judgeParity() {
-                if(this.pagerCount % 2 == 0) {
-                    // 表示是偶数
-                    alert('请传入基数')
-                    return
-                } else {
-                    this.initPage()
-                }
+                this.$callBack(this.currentPage)
             }
 
             // 选择器
@@ -260,6 +267,9 @@
             currentPage: 5,
             total: 100,
             pagerCount: 5,
+            callBack: function(currentPage){
+                console.log('当前页：' + currentPage)
+            }
         })
     </script>
 </body>
