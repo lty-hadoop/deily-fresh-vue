@@ -122,7 +122,11 @@
 
 			    let $li = '';
 			    for(var i = 1; i <= lineNum; i++){
-	      			$li += `<li>${i}</li>`;
+					if (this.oDay == i){						
+	      				$li += `<li class="current_day">${i}</li>`;
+					} else {
+						$li += `<li>${i}</li>`;
+					}
 	        		$ul.innerHTML = $li
 		    	}
 
@@ -134,14 +138,6 @@
 		    		let first = $ul.firstChild
 		    		$ul.insertBefore(li, first)
 		    	}
-
-		    	this.AddClass(weekStart)
-			}
-
-			// 样式
-			AddClass(weekStart) {
-				let $lis = document.querySelectorAll('li')
-		        $lis[this.oDay - 1 + weekStart].className = 'current_day'
 			}
 
 			// 当前点击元素

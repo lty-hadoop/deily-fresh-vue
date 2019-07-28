@@ -120,6 +120,9 @@
                     // 表示是偶数
                     alert('请传入基数')
                     return
+                } else if (this.pagerCount > this.pageSize) {
+                    alert('请传入正确页码')
+                    return
                 } else {
                     this.initPage()
                 }
