@@ -85,14 +85,13 @@
 				this.$options = options
 				this.$callBack = this.$options.callBack || function() {}
 
-
 				let oDate = new Date()
 				this.oYear = oDate.getFullYear()
 				this.oMonth = oDate.getMonth() + 1
 				this.oDay = oDate.getDate()
 
 				this.oWeek = ['日','一','二','三','四','五','六']
-				this.oW = document.querySelector('.week')
+				this.oW = this.Selector('.week')
 			
 				this.oW.innerHTML = this.InitCalendar(this.oWeek)
 				this.Render(this.oYear, this.oMonth)
