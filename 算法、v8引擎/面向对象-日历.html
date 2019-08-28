@@ -6,7 +6,6 @@
 	<style>
 		*{margin:0;padding:0;}
 		#calendar{
-			width: 100%;
 			margin: 10px 0 0 20px;
 			box-sizing: border-box;
 		}
@@ -82,7 +81,11 @@
 
 	<script>
 		class Calendar {
-			constructor() {
+			constructor(options) {
+				this.$options = options
+				this.$callBack = this.$options.callBack || function() {}
+
+
 				let oDate = new Date()
 				this.oYear = oDate.getFullYear()
 				this.oMonth = oDate.getMonth() + 1
@@ -96,6 +99,7 @@
 				this.CurrentEle()
 				this.HandlePrev()
 				this.HandleNext()
+				
 			}
 
 			// 初始化日历
@@ -130,6 +134,8 @@
 	        		$ul.innerHTML = $li
 		    	}
 
+		    	this.$callBack(this.oDay)
+
 		    	for(var j = 1; j <= weekStart; j++){
 		    		let li = document.createElement("li")
 		    		li.innerHTML += ``
@@ -148,6 +154,7 @@
                         // console.log(event.target.innerHTML)
 						event.target.className = 'active'
 						this.Siblings(event.target)
+						this.$callBack(event.target.innerHTML)
                     }.bind(this))
                 }
 			}
@@ -198,7 +205,11 @@
 			}
 		}
 
-		new Calendar()
+		new Calendar({
+			callBack: function(currentDay){
+				console.log('当前天：' + currentDay)
+			}
+		})
 	</script>
 </body>
 </html>
