@@ -14,13 +14,11 @@ class Carousel {
 		this.$index = 0
 		// 初始化dom元素
 		this.$list = this.selector(this.$el ? this.$el : '.carousel-wrap')
-		// 获取上下页的dom节点
-		this.$flipOver = this.selector('.flip-over')
 		// 延时时间
 		this.$delay = this.$options.delay || '3000'
 		this.init()
 		this.moveOut()
-		this.handleClick()
+		this.createMoveNode()
 	}
 
 	// 初始化
@@ -43,9 +41,24 @@ class Carousel {
 		}
 	}
 
+	// 动态生成上一页，下一页节点
+	createMoveNode() {
+		let carousel = document.querySelector('#carousel')
+		let filpOver = document.createElement('div')
+		filpOver.className = 'flip-over'
+
+		let span = `
+			<span class="prev"></span>
+			<span class="next"></span>
+		`
+		filpOver.innerHTML = span
+		carousel.append(filpOver)
+		this.handleClick(filpOver)
+	}
+
 	// 上一页 下一页
-	handleClick() {
-		this.$flipOver.onclick = function(event){
+	handleClick(el) {
+		el.onclick = function(event){
 			let e = event.target
 			if(e.className == 'prev'){
 				this.$index--
