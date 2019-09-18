@@ -14,7 +14,7 @@
 		}
 		.prev {
 			position: absolute;
-			top: 65px;
+			top: 75px;
 			left: 0;
 			z-index: 2;
 			display: block;
@@ -26,7 +26,7 @@
 		}
 		.next {
 			position: absolute;
-			top: 65px;			
+			top: 75px;			
 			right: 0;
 			z-index: 2;
 			display: block;
@@ -46,12 +46,30 @@
 		}
 		#carousel .carousel-wrap img {
 			float: left;
-			display: inline-block;
+			display: block;
 			width: 680px;
 			height: 250px;
 		}
 		.animation {
 			transition: .3s ease-in;
+		}
+		.pagination {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			z-index: 2;
+		}
+		.pagination .circle {
+			display: inline-block;
+			width: 6px;
+			height: 6px;
+			margin-right: 5px;
+			border: 1px solid #f96e6e;
+			border-radius: 50%;
+			cursor: pointer;
+		}
+		.active {
+			background: #000;
 		}
 	</style>
 	<script src="./js/index.js"></script>
@@ -66,6 +84,15 @@
 			<img src="./images/5.jpg" alt="">
 			<img src="./images/6.jpg" alt="">
 		</div>
+		
+		<!-- <div class="pagination">
+			<span class="circle"></span>
+			<span class="circle"></span>
+			<span class="circle"></span>
+			<span class="circle"></span>
+			<span class="circle"></span>
+			<span class="circle"></span>
+		</div> -->
 	</div>
 </body>
 </html>
