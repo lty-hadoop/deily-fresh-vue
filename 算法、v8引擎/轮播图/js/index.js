@@ -35,12 +35,9 @@ class Carousel {
 	autoPlay() {
 		this.$list = this.$el.firstElementChild
 		this.$index++
-		if(this.$index >= 6) {
-			this.$index = 0
-		} else {
-			this.$list.style.left = (this.$index * -680) + 'px'
-			this.$list.classList.add("animation")
-		}
+		if(this.$index >= 6) this.$index = 0
+		this.$list.style.left = (this.$index * -680) + 'px'
+		this.$list.classList.add("animation")
 	}
 
 	// 动态生成上一页，下一页节点
