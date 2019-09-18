@@ -39,7 +39,12 @@ class Carousel {
 		if(this.$index >= this.$img.length) this.$index = 0
 		this.$list.style.left = (this.$index * - 680) + 'px'
 		this.$list.classList.add("animation")
-		this.addStyle()
+
+
+		
+		this.selector('i').forEach((item, index) => {
+			index === this.$index ? item.classList.add('active') : item.classList.remove('active')
+		})
 	}
 
 	// 动态生成上一页，下一页节点
@@ -62,21 +67,12 @@ class Carousel {
 		pagination.className = 'pagination'
 		
 		for(let i = 0; i < this.$img.length; i++) {
-			let i = document.createElement('i')
-			i.className = 'circle'
-			pagination.appendChild(i)
+			let $i = document.createElement('i')		
+			pagination.appendChild($i)
+			i === this.$index ? $i.className = 'active circle' : $i.className = 'circle'
 		}
 		pagination.style.left = (680-76) / 2 +'px'
 		this.$el.append(pagination)
-	}
-
-	// 分页器加样式
-	addStyle() {
-		// console.log(this.$index)
-		// let paginationCircle = this.selector('i')
-		// paginationCircle.forEach((item,index) => {
-		// 	console.log(item)
-		// })
 	}
 
 	// 上一页 下一页
@@ -85,8 +81,8 @@ class Carousel {
 			let e = event.target
 			if(e.className == 'prev'){
 				this.$index--
-	            if(this.$index<0){this.$index= (this.$img.length - 1)};
-	            this.$list.style.left = (this.$index * - 680) + 'px'
+				if(this.$index<0){this.$index= (this.$img.length - 1)}
+				this.$list.style.left = (this.$index * - 680) + 'px'
 			} else {
 				this.autoPlay()
 			}
