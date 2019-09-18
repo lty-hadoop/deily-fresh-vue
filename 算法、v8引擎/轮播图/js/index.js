@@ -17,9 +17,7 @@ class Carousel {
 		this.$el = this.selector(this.$el ? this.$el : '#carousel')
 		// 延时时间
 		this.$delay = this.$options.delay || '3000'
-		this.init()
-		this.moveOut()
-		this.createMoveNode()
+		this.init()		
 	}
 
 	// 初始化
@@ -29,6 +27,8 @@ class Carousel {
 			this.autoPlay.bind(this),
 			this.$delay
 		)
+		this.moveOut()
+		this.createMoveNode()
 	}
 
 	// 自动轮播
