@@ -1,6 +1,6 @@
 window.onload = function() {
 	new Carousel({
-		el: '.carousel-wrap',
+		el: '#carousel',
 		delay: '3000'
 	})
 }
@@ -12,8 +12,9 @@ class Carousel {
 		this.$options = options
 		this.$timer = null
 		this.$index = 0
+		this.$list = null
 		// 初始化dom元素
-		this.$list = this.selector(this.$el ? this.$el : '.carousel-wrap')
+		this.$el = this.selector(this.$el ? this.$el : '#carousel')
 		// 延时时间
 		this.$delay = this.$options.delay || '3000'
 		this.init()
@@ -32,6 +33,7 @@ class Carousel {
 
 	// 自动轮播
 	autoPlay() {
+		this.$list = this.$el.firstElementChild
 		this.$index++
 		if(this.$index >= 6) {
 			this.$index = 0
@@ -43,7 +45,6 @@ class Carousel {
 
 	// 动态生成上一页，下一页节点
 	createMoveNode() {
-		let carousel = document.querySelector('#carousel')
 		let filpOver = document.createElement('div')
 		filpOver.className = 'flip-over'
 
@@ -52,7 +53,7 @@ class Carousel {
 			<span class="next"></span>
 		`
 		filpOver.innerHTML = span
-		carousel.append(filpOver)
+		this.$el.append(filpOver)
 		this.handleClick(filpOver)
 	}
 
@@ -88,7 +89,7 @@ class Carousel {
 
 	// 选择器
 	selector(ele) {
-		if(!!ele && ele.indexOf('.') !== -1) {
+		if(!!ele && ele.indexOf('.') !== -1 || !!ele && ele.indexOf('#') !== -1) {
             return document.querySelector(ele)
         } else {
             return document.querySelectorAll(ele)
