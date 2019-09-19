@@ -1,7 +1,10 @@
 window.onload = function() {
 	new Carousel({
 		el: '#carousel',
-		delay: 3000
+		delay: 3000,
+		callBack: function(currentSrc){
+			console.log(currentSrc)
+		}
 	})
 }
 
@@ -16,11 +19,13 @@ class Carousel {
 		// 初始化dom元素
 		this.$el = this.selector(this.$el ? this.$el : '#carousel')
 		// 延时时间
-		this.$delay = this.$options.delay || 3000
+		this.$delay = this.$options.delay || 2000
 		// 获取$el的实际宽度
 		this.$wid = this.$el.clientWidth
 		// 获取图片列表
 		this.$img = this.selector('img')
+		// 回调函数
+		this.$callBack = this.$options.callBack || function() {}
 		this.init()
 	}
 
@@ -34,6 +39,7 @@ class Carousel {
 		this.dynamicCreateMoveNode()
 		this.dynamicCreatePaginationNode()
 		this.paginationEvent()
+		this.pichandleClick()
 	}
 
 	// 自动轮播
@@ -93,11 +99,7 @@ class Carousel {
 	handleClick(el) {
 		el.onclick = function(event){
 			let e = event.target
-			if(e.className == 'prev'){
-				this.$index--
-			} else {
-				this.$index++
-			}
+			e.className == 'prev' ? this.$index-- : this.$index++
 			this.autoPlay()
 		}.bind(this)
 	}
@@ -114,6 +116,16 @@ class Carousel {
 					this.autoPlay.bind(this, true),
 					this.$delay
 				)
+			}.bind(this)
+		})
+	}
+
+	// 点击图片
+	pichandleClick() {
+		this.$img.forEach(item => {
+			item.onclick = function(event){
+				let src = event.target.src
+				this.$callBack(src)
 			}.bind(this)
 		})
 	}
