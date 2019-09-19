@@ -19,12 +19,13 @@ class Carousel {
 		this.$delay = this.$options.delay || 3000
 		// 获取$el的实际宽度
 		this.$wid = this.$el.clientWidth
+		// 获取图片列表
+		this.$img = this.selector('img')
 		this.init()
 	}
 
 	// 初始化
-	init() {
-		this.$img = this.selector('img')
+	init() {		
 		this.$timer = setInterval(
 			this.autoPlay.bind(this, true),
 			this.$delay
