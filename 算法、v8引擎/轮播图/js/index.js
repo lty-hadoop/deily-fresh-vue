@@ -17,31 +17,40 @@ class Carousel {
 		this.$el = this.selector(this.$el ? this.$el : '#carousel')
 		// 延时时间
 		this.$delay = this.$options.delay || 3000
-		this.init()		
+		// 获取$el的实际宽度
+		this.$wid = this.$el.clientWidth
+		this.init()
 	}
 
 	// 初始化
-	init() {	
+	init() {
 		this.$img = this.selector('img')
 		this.$timer = setInterval(
-			this.autoPlay.bind(this),
+			this.autoPlay.bind(this, true),
 			this.$delay
 		)
 		this.moveOut()
 		this.dynamicCreateMoveNode()
 		this.dynamicCreatePaginationNode()
+		this.paginationEvent()
 	}
 
 	// 自动轮播
-	autoPlay() {
+	autoPlay(flag) {
 		this.$list = this.$el.firstElementChild
-		this.$index++
-		if(this.$index >= this.$img.length) this.$index = 0
-		this.$list.style.left = (this.$index * - 680) + 'px'
-		this.$list.classList.add("animation")
 
+		if(flag) {
+			this.$index++
+		}
 
-		
+		if(this.$index < 0){
+			this.$index= (this.$img.length - 1)
+		} else if(this.$index >= this.$img.length) {
+			this.$index = 0
+		}
+
+		this.$list.style.left = (this.$index * - this.$wid) + 'px'
+		this.$list.classList.add("animation")		
 		this.selector('i').forEach((item, index) => {
 			index === this.$index ? item.classList.add('active') : item.classList.remove('active')
 		})
@@ -71,7 +80,11 @@ class Carousel {
 			pagination.appendChild($i)
 			i === this.$index ? $i.className = 'active circle' : $i.className = 'circle'
 		}
-		pagination.style.left = (680-76) / 2 +'px'
+		// 分页器居中
+		setTimeout(()=> {
+			let pageWid = pagination.clientWidth
+			pagination.style.left = (this.$wid - pageWid) / 2 +'px'
+		}, 30)
 		this.$el.append(pagination)
 	}
 
@@ -81,11 +94,10 @@ class Carousel {
 			let e = event.target
 			if(e.className == 'prev'){
 				this.$index--
-				if(this.$index<0){this.$index= (this.$img.length - 1)}
-				this.$list.style.left = (this.$index * - 680) + 'px'
 			} else {
-				this.autoPlay()
+				this.$index++
 			}
+			this.autoPlay()
 		}.bind(this)
 	}
 
@@ -98,9 +110,20 @@ class Carousel {
 
 			item.onmouseout = function(){
 				this.$timer = setInterval(
-					this.autoPlay.bind(this),
+					this.autoPlay.bind(this, true),
 					this.$delay
 				)
+			}.bind(this)
+		})
+	}
+
+	// 点击分页按钮
+	paginationEvent() {
+		let paginationbtn = this.selector('i')
+		paginationbtn.forEach((item, index)=> {
+			item.onclick = function() {
+				this.$index = index
+				this.autoPlay()
 			}.bind(this)
 		})
 	}
