@@ -26,6 +26,8 @@ class Carousel {
 		this.$img = this.selector('img')
 		// 回调函数
 		this.$callBack = this.$options.callBack || function() {}
+		// 图片是否可点击
+		this.$isImgClick = this.$options.isImgClick === undefined || this.$options.isImgClick
 		this.init()
 	}
 
@@ -57,7 +59,7 @@ class Carousel {
 		}
 
 		this.$list.style.left = (this.$index * - this.$wid) + 'px'
-		this.$list.classList.add("animation")		
+		this.$list.classList.add("animation")
 		this.selector('i').forEach((item, index) => {
 			index === this.$index ? item.classList.add('active') : item.classList.remove('active')
 		})
@@ -122,12 +124,14 @@ class Carousel {
 
 	// 点击图片
 	pichandleClick() {
-		this.$img.forEach(item => {
-			item.onclick = function(event){
-				let src = event.target.src
-				this.$callBack(src)
-			}.bind(this)
-		})
+		if(this.$isImgClick) {
+			this.$img.forEach(item => {
+				item.onclick = function(event){
+					let src = event.target.src
+					this.$callBack(src)
+				}.bind(this)
+			})
+		}
 	}
 
 	// 点击分页按钮
