@@ -23,7 +23,7 @@ class Carousel {
 		// 获取$el的实际宽度
 		this.$wid = this.$el.clientWidth
 		// 获取图片列表
-		this.$img = this.selector('img')
+		this.$img = Array.prototype.slice.call(this.$el.children[0].getElementsByTagName('img'))	
 		// 回调函数
 		this.$callBack = this.$options.callBack || function() {}
 		// 图片是否可点击
