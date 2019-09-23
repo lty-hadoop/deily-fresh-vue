@@ -1,4 +1,4 @@
-window.onload = function() {
+﻿window.onload = function() {
 	new Carousel({
 		el: '#carousel',
 		delay: 3000,
@@ -32,7 +32,7 @@ class Carousel {
 	}
 
 	// 初始化
-	init() {		
+	init() {
 		this.$timer = setInterval(
 			this.autoPlay.bind(this, true),
 			this.$delay
@@ -58,7 +58,8 @@ class Carousel {
 			this.$index = 0
 		}
 
-		this.$list.style.left = (this.$index * - this.$wid) + 'px'
+		// this.$list.style.left = (this.$index * - this.$wid) + 'px'
+		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'
 		this.$list.classList.add("animation")
 		this.selector('i').forEach((item, index) => {
 			index === this.$index ? item.classList.add('active') : item.classList.remove('active')
