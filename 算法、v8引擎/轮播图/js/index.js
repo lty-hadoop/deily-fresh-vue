@@ -13,57 +13,90 @@
 class Carousel {
 	constructor(options) {
 		this.$options = options
+		// 初始化延时时间
 		this.$timer = null
-		this.$index = 0
+		// 初始化下标
+		this.$index = 1
+		// 初始化整体图片列表
 		this.$list = null
+		// 初始化复制图片列表
+		this.ImgCopyArr = null
 		// 初始化dom元素
 		this.$el = this.selector(this.$el ? this.$el : '#carousel')
 		// 延时时间
 		this.$delay = this.$options.delay || 2000
 		// 获取$el的实际宽度
-		this.$wid = this.$el.clientWidth
-		// 获取图片列表
-		this.$img = Array.prototype.slice.call(this.$el.children[0].getElementsByTagName('img'))	
+		this.$wid = this.$el.clientWidth	
 		// 回调函数
 		this.$callBack = this.$options.callBack || function() {}
 		// 图片是否可点击
 		this.$isImgClick = this.$options.isImgClick === undefined || this.$options.isImgClick
 		this.init()
+		this.bind()
 	}
 
 	// 初始化
 	init() {
+		this.copyImg()
 		this.$timer = setInterval(
 			this.autoPlay.bind(this, true),
 			this.$delay
-		)
-		this.moveOut()
+		)			
 		this.dynamicCreateMoveNode()
-		this.dynamicCreatePaginationNode()
+		this.dynamicCreatePaginationNode()	
+	}
+
+	// 事件操作
+	bind() {
+		this.moveOut()
 		this.paginationEvent()
-		this.pichandleClick()
+		this.picHandleClick()
+	}
+
+	// 复制图片
+	copyImg() {
+		this.ImgCopyArr = this.$el.children[0]		
+		// 克隆第一张
+		let firstImg = this.ImgCopyArr.firstElementChild.cloneNode()
+		// 克隆最后一张
+		let lastImg = this.ImgCopyArr.lastElementChild.cloneNode()
+		this.ImgCopyArr.append(firstImg)
+
+		this.ImgCopyArr.insertBefore(lastImg, this.ImgCopyArr.firstElementChild)
+		
+		// 获取图片列表
+		this.$img = Array.prototype.slice.call(this.$el.children[0].getElementsByTagName('img'))
 	}
 
 	// 自动轮播
 	autoPlay(flag) {
 		this.$list = this.$el.firstElementChild
 
+		// 默认进行++
 		if(flag) {
 			this.$index++
 		}
 
-		if(this.$index < 0){
-			this.$index= (this.$img.length - 1)
+		if(this.$index <= 0){
+			this.$index= this.$img.length - 2
+		} else if(this.$index == this.$img.length-1){
+			this.$index = 1
 		} else if(this.$index >= this.$img.length) {
-			this.$index = 0
+			this.$index = 2
+			this.to0()
 		}
 
-		// this.$list.style.left = (this.$index * - this.$wid) + 'px'
-		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'
-		this.$list.classList.add("animation")
+		this.$list.style.transitionDuration = `0.3s`;
+		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'		
 		this.selector('i').forEach((item, index) => {
-			index === this.$index ? item.classList.add('active') : item.classList.remove('active')
+			index+1 === this.$index ? item.classList.add('active') : item.classList.remove('active')
 		})
+	}
+
+	to0(){
+		this.$list.style.transitionDuration = `0s`
+		this.$list.style.transform = 'translate3d(' + 0 - this.$wid + 'px, 0, 0)'
+		
 	}
 
 	// 动态生成上一页，下一页节点
@@ -85,7 +118,7 @@ class Carousel {
 		let pagination = document.createElement('div')
 		pagination.className = 'pagination'
 		
-		for(let i = 0; i < this.$img.length; i++) {
+		for(let i = 1; i < this.$img.length - 1; i++) {
 			let $i = document.createElement('i')		
 			pagination.appendChild($i)
 			i === this.$index ? $i.className = 'active circle' : $i.className = 'circle'
@@ -124,7 +157,7 @@ class Carousel {
 	}
 
 	// 点击图片
-	pichandleClick() {
+	picHandleClick() {
 		if(this.$isImgClick) {
 			this.$img.forEach(item => {
 				item.onclick = function(event){
@@ -140,7 +173,7 @@ class Carousel {
 		let paginationbtn = this.selector('i')
 		paginationbtn.forEach((item, index)=> {
 			item.onclick = function() {
-				this.$index = index
+				this.$index = index+1
 				this.autoPlay()
 			}.bind(this)
 		})
