@@ -87,18 +87,9 @@ class Carousel {
 		}
 
 		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'
-		this.$list.style.transition = `transform .3s ease-in`;
+		this.$list.style.transition = `transform .3s ease-in`
 		
 		this.changePagination()
-	}
-
-	// 切换pagination
-	changePagination() {
-		let _paginateList = this.selector('.pagination')
-		_paginateList = Array.prototype.slice.call(_paginateList.getElementsByTagName('i'))
-		_paginateList.forEach(function(item, index){
-			index+1 === this.$index ? item.classList.add('active') : item.classList.remove('active')
-		}.bind(this))
 	}
 
 	// 去零
@@ -106,6 +97,15 @@ class Carousel {
 		this.$list.style.transform = 'translate3d(' + 0 - this.$wid + 'px, 0, 0)'
 		this.$list.style.transition = 'transform 0s ease-in'
 	}
+
+	// 切换pagination原点分页
+	changePagination() {
+		let _paginateList = this.selector('.pagination')
+		_paginateList = Array.prototype.slice.call(_paginateList.getElementsByTagName('i'))
+		_paginateList.map(function(item, index){
+			return index+1 === this.$index ? item.classList.add('active') : item.classList.remove('active')
+		}.bind(this))
+	}	
 
 	// 动态生成上一页，下一页节点
 	dynamicCreateMoveNode() {
@@ -123,20 +123,20 @@ class Carousel {
 
 	// 动态生成分页器
 	dynamicCreatePaginationNode() {
-		let _pagination = document.createElement('div')
-		_pagination.className = 'pagination'
+		let _paginationGroup = document.createElement('div')
+		_paginationGroup.className = 'pagination'
 		
 		for(let i = 1; i < this.$img.length - 1; i++) {
 			let $i = document.createElement('i')		
-			_pagination.appendChild($i)
+			_paginationGroup.appendChild($i)
 			i === this.$index ? $i.className = 'active circle' : $i.className = 'circle'
 		}
 		// 分页器居中
-		setTimeout(()=> {
-			let pageWid = _pagination.clientWidth
-			_pagination.style.left = (this.$wid - pageWid) / 2 +'px'
-		}, 30)
-		this.$el.append(_pagination)
+		setTimeout(function() {
+			let pageWid = _paginationGroup.clientWidth
+			_paginationGroup.style.left = (this.$wid - pageWid) / 2 +'px'
+		}.bind(this), 30)
+		this.$el.append(_paginationGroup)
 	}
 
 	// 上一页 下一页
@@ -176,13 +176,14 @@ class Carousel {
 
 	// 点击分页按钮
 	paginationEvent() {
-		let paginationbtn = this.selector('i')
-		paginationbtn.forEach((item, index)=> {
+		let _paginateBtn = this.selector('.pagination')
+		_paginateBtn = Array.prototype.slice.call(_paginateBtn.getElementsByTagName('i'))
+		_paginateBtn.forEach(function(item, index) {
 			item.onclick = function() {
 				this.$index = index+1
 				this.autoPlay()
 			}.bind(this)
-		})
+		}.bind(this))
 	}
 
 	// 选择器
