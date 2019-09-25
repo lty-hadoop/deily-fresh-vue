@@ -21,7 +21,7 @@ class Carousel {
 		this.$list = null
 		// 初始化复制图片列表
 		this.ImgCopyArr = null
-		// 初始化dom元素
+		// 初始化dom节点
 		this.$el = this.selector(this.$el ? this.$el : '#carousel')
 		// 延时时间
 		this.$delay = this.$options.delay || 2000
@@ -89,11 +89,19 @@ class Carousel {
 		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'
 		this.$list.style.transition = `transform .3s ease-in`;
 		
-		this.selector('i').forEach(function(item, index){
+		this.changePagination()
+	}
+
+	// 切换pagination
+	changePagination() {
+		let _paginateList = this.selector('.pagination')
+		_paginateList = Array.prototype.slice.call(_paginateList.getElementsByTagName('i'))
+		_paginateList.forEach(function(item, index){
 			index+1 === this.$index ? item.classList.add('active') : item.classList.remove('active')
 		}.bind(this))
 	}
 
+	// 去零
 	toZero(){
 		this.$list.style.transform = 'translate3d(' + 0 - this.$wid + 'px, 0, 0)'
 		this.$list.style.transition = 'transform 0s ease-in'
@@ -115,20 +123,20 @@ class Carousel {
 
 	// 动态生成分页器
 	dynamicCreatePaginationNode() {
-		let pagination = document.createElement('div')
-		pagination.className = 'pagination'
+		let _pagination = document.createElement('div')
+		_pagination.className = 'pagination'
 		
 		for(let i = 1; i < this.$img.length - 1; i++) {
 			let $i = document.createElement('i')		
-			pagination.appendChild($i)
+			_pagination.appendChild($i)
 			i === this.$index ? $i.className = 'active circle' : $i.className = 'circle'
 		}
 		// 分页器居中
 		setTimeout(()=> {
-			let pageWid = pagination.clientWidth
-			pagination.style.left = (this.$wid - pageWid) / 2 +'px'
+			let pageWid = _pagination.clientWidth
+			_pagination.style.left = (this.$wid - pageWid) / 2 +'px'
 		}, 30)
-		this.$el.append(pagination)
+		this.$el.append(_pagination)
 	}
 
 	// 上一页 下一页
