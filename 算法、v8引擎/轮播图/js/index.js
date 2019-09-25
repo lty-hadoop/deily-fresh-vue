@@ -37,6 +37,8 @@ class Carousel {
 
 	// 初始化
 	init() {
+		// 初始化就清除一次定时器
+		clearInterval(this.$timer)
 		this.copyImg()
 		this.$timer = setInterval(
 			this.autoPlay.bind(this, true),
@@ -87,7 +89,7 @@ class Carousel {
 		}
 
 		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'
-		this.$list.style.transition = `transform .3s ease-in`
+		this.$list.style.transitionDuration = '.3s'
 		
 		this.changePagination()
 	}
@@ -95,7 +97,7 @@ class Carousel {
 	// 去零
 	toZero(){
 		this.$list.style.transform = 'translate3d(' + 0 - this.$wid + 'px, 0, 0)'
-		this.$list.style.transition = 'transform 0s ease-in'
+		this.$list.style.transitionDuration = '0s'
 	}
 
 	// 切换pagination原点分页
