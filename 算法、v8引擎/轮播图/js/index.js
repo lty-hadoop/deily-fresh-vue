@@ -26,7 +26,7 @@ class Carousel {
 		// 延时时间
 		this.$delay = this.$options.delay || 2000
 		// 获取$el的实际宽度
-		this.$wid = this.$el.clientWidth	
+		this.$wid = this.$el.clientWidth
 		// 回调函数
 		this.$callBack = this.$options.callBack || function() {}
 		// 图片是否可点击
@@ -78,25 +78,25 @@ class Carousel {
 		}
 
 		if(this.$index <= 0){
-			this.$index= this.$img.length - 2
-		} else if(this.$index == this.$img.length-1){
+			this.$index = this.$img.length - 2
+		} else if(this.$index == this.$img.length - 1){
 			this.$index = 1
 		} else if(this.$index >= this.$img.length) {
 			this.$index = 2
-			this.to0()
+			this.toZero()
 		}
 
-		this.$list.style.transitionDuration = `0.3s`;
-		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'		
-		this.selector('i').forEach((item, index) => {
+		this.$list.style.transform = 'translate3d(' + this.$index * - this.$wid + 'px, 0, 0)'
+		this.$list.style.transition = `transform .3s ease-in`;
+		
+		this.selector('i').forEach(function(item, index){
 			index+1 === this.$index ? item.classList.add('active') : item.classList.remove('active')
-		})
+		}.bind(this))
 	}
 
-	to0(){
-		this.$list.style.transitionDuration = `0s`
+	toZero(){
 		this.$list.style.transform = 'translate3d(' + 0 - this.$wid + 'px, 0, 0)'
-		
+		this.$list.style.transition = 'transform 0s ease-in'
 	}
 
 	// 动态生成上一页，下一页节点
@@ -142,18 +142,16 @@ class Carousel {
 
 	// 移入移出
 	moveOut() {
-		this.$img.forEach((item) => {
-			item.onmouseover = function(){
-				clearInterval(this.$timer)
-			}.bind(this)
+		this.$el.onmouseover = function(){
+			clearInterval(this.$timer)
+		}.bind(this)
 
-			item.onmouseout = function(){
-				this.$timer = setInterval(
-					this.autoPlay.bind(this, true),
-					this.$delay
-				)
-			}.bind(this)
-		})
+		this.$el.onmouseout = function(){
+			this.$timer = setInterval(
+				this.autoPlay.bind(this, true),
+				this.$delay
+			)
+		}.bind(this)
 	}
 
 	// 点击图片
